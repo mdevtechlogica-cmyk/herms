@@ -1,0 +1,1 @@
+ALTER TABLE public.bookings ADD CONSTRAINT bookings_customer_profile_fkey FOREIGN KEY (customer_id) REFERENCES public.profiles(id) ON DELETE CASCADE;

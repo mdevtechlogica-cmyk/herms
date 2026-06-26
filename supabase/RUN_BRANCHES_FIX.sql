@@ -1,0 +1,2 @@
+-- Use RUN_BRANCHES_COMPLETE.sql (this file kept for older docs)
+-- Copy and run the contents of RUN_BRANCHES_COMPLETE.sql in Supabase SQL Editor.
