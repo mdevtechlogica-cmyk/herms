@@ -51,7 +51,7 @@ function Page() {
   });
 
   const downloadInvoice = (inv: Invoice) => {
-    const html = `<html><head><title>${inv.invoice_number}</title><style>body{font-family:system-ui;padding:40px;color:#0f172a}h1{color:#0c2340}table{width:100%;border-collapse:collapse;margin-top:20px}td,th{border-bottom:1px solid #e2e8f0;padding:10px;text-align:left}.total{font-size:18px;font-weight:bold}</style></head><body>
+    const html = `<html><head><title>${inv.invoice_number}</title><style>body{font-family:'Inter',system-ui,sans-serif;padding:40px;color:#282A33}h1{color:#2A2D35}table{width:100%;border-collapse:collapse;margin-top:20px}td,th{border-bottom:1px solid #EBEBED;padding:10px;text-align:left}.total{font-size:18px;font-weight:bold}</style></head><body>
       <h1>HERMS — Invoice ${inv.invoice_number}</h1>
       <p>Date: ${formatDate(inv.invoice_date)}</p>
       <table><tr><th>Description</th><th>Amount</th></tr>

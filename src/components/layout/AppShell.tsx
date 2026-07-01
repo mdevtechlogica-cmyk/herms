@@ -82,11 +82,11 @@ function AppSidebar({ items, pathname, onSignOut, profile, roleLabel, navLabels,
       <SidebarHeader className="border-b border-sidebar-border px-4 py-4">
         <div className="flex items-center justify-between gap-2 pr-8">
           <div className="flex items-center gap-2 min-w-0">
-            <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+            <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary text-accent">
               <Construction className="h-5 w-5" />
             </div>
             <div className="min-w-0">
-              <div className="text-sm font-bold tracking-tight">HERMS</div>
+              <div className="text-sm font-bold font-heading tracking-tight">HERMS</div>
               <div className="text-[10px] text-sidebar-foreground/60 uppercase tracking-wider truncate">
                 {roleLabel}
               </div>
@@ -149,10 +149,10 @@ function ShellHeader() {
       <div className="flex h-14 items-center gap-2 px-4">
         <SidebarTrigger className="h-9 w-9" />
         <div className="flex items-center gap-2 min-w-0">
-          <div className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-primary text-primary-foreground">
+          <div className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-primary text-accent">
             <Construction className="h-4 w-4" />
           </div>
-          <span className="font-bold truncate">HERMS</span>
+          <span className="font-bold font-heading truncate">HERMS</span>
         </div>
       </div>
     </header>

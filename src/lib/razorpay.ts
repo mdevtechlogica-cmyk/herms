@@ -111,7 +111,7 @@ export async function openRazorpayCheckout(opts: {
     description: opts.description,
     order_id: opts.orderId,
     prefill,
-    theme: { color: "#0c2340" },
+    theme: { color: "#2A2D35" },
     // UPI / GPay do not appear in Capacitor WebView unless this flag is set.
     ...(isNativeApp ? { webview_intent: true } : {}),
     method: buildMethodFlags(opts.paymentMethod),

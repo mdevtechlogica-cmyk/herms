@@ -7,6 +7,7 @@ import { useAuth } from "@/lib/auth-context";
 import { useLocale } from "@/lib/locale-context";
 import { useBranchScope } from "@/hooks/use-branch-scope";
 import { useWorkspace } from "@/lib/workspace-context";
+import { useCountUp } from "@/hooks/use-count-up";
 import { cn } from "@/lib/utils";
 import {
   BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, PieChart, Pie, Cell,
@@ -25,43 +26,43 @@ export const Route = createFileRoute("/_authenticated/admin/dashboard")({
 });
 
 const CHART_COLORS = {
-  bar: "hsl(195 75% 48%)",
+  bar: "oklch(0.74 0.16 65)",
   grid: "hsl(var(--border) / 0.5)",
 };
 const PIE_COLORS = ["#10b981", "#3b82f6", "#f59e0b", "#ef4444"];
 
+const BORDER_ACCENTS = {
+  accent: "border-l-accent",
+  success: "border-l-success",
+  info: "border-l-info",
+  warning: "border-l-warning",
+} as const;
+
 function DashboardStat({
-  label, value, icon: Icon, tone,
+  label, value, icon: Icon, accent,
 }: {
   label: string;
   value: string | number;
   icon: LucideIcon;
-  tone: "blue" | "emerald" | "violet" | "teal" | "amber" | "orange";
+  accent: keyof typeof BORDER_ACCENTS;
 }) {
-  const tones = {
-    blue: "from-blue-500/15 to-blue-500/5 text-blue-600 dark:text-blue-400 ring-blue-500/20",
-    emerald: "from-emerald-500/15 to-emerald-500/5 text-emerald-600 dark:text-emerald-400 ring-emerald-500/20",
-    violet: "from-violet-500/15 to-violet-500/5 text-violet-600 dark:text-violet-400 ring-violet-500/20",
-    teal: "from-teal-500/15 to-teal-500/5 text-teal-600 dark:text-teal-400 ring-teal-500/20",
-    amber: "from-amber-500/15 to-amber-500/5 text-amber-600 dark:text-amber-400 ring-amber-500/20",
-    orange: "from-orange-500/15 to-orange-500/5 text-orange-600 dark:text-orange-400 ring-orange-500/20",
-  };
+  const isNumeric = typeof value === "number";
+  const animated = useCountUp(isNumeric ? value : 0, isNumeric);
+  const display = isNumeric ? String(animated) : value;
 
   return (
-    <div className="group relative overflow-hidden rounded-2xl border bg-card p-4 shadow-sm transition-shadow hover:shadow-md">
-      <div className={cn(
-        "absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br opacity-60 blur-2xl transition-opacity group-hover:opacity-80",
-        tones[tone].split(" ")[0],
-      )} />
+    <div
+      className={cn(
+        "group relative overflow-hidden rounded-2xl border border-l-[3px] bg-card p-4 shadow-sm transition-all hover:shadow-lg hover:-translate-y-0.5",
+        BORDER_ACCENTS[accent],
+      )}
+    >
       <div className="relative flex items-start justify-between gap-2">
         <div className="min-w-0">
           <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
-          <p className="mt-1.5 text-2xl font-bold tracking-tight text-foreground truncate">{value}</p>
+          <p className="mt-1.5 text-2xl font-mono font-bold tracking-tight text-foreground truncate">{display}</p>
         </div>
-        <div className={cn(
-          "grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br ring-1",
-          tones[tone],
-        )}>
+        <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-muted text-foreground">
           <Icon className="h-5 w-5" />
         </div>
       </div>
@@ -134,7 +135,7 @@ function AdminDashboard() {
   return (
     <div className="space-y-6 pb-2">
       {/* Hero */}
-      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary via-primary to-[oklch(0.45_0.1_210)] text-primary-foreground shadow-lg">
+      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary via-primary to-[oklch(0.45_0.12_65)] text-primary-foreground shadow-lg">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(255,255,255,0.12),_transparent_55%)]" />
         <div className="absolute -bottom-8 -right-8 h-40 w-40 rounded-full bg-white/5 blur-2xl" />
         <div className="relative p-5 sm:p-6 space-y-4">
@@ -144,7 +145,7 @@ function AdminDashboard() {
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-sm text-primary-foreground/75">{t.dashboard.description}</p>
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight mt-0.5">
+              <h1 className="text-xl sm:text-2xl font-bold font-heading tracking-tight mt-0.5">
                 {t.dashboard.greeting.replace("{name}", firstName)}
               </h1>
               {branch && (
@@ -196,12 +197,12 @@ function AdminDashboard() {
 
       {/* Stats */}
       <div className="grid gap-3 grid-cols-2 lg:grid-cols-3">
-        <DashboardStat label={t.dashboard.totalEquipment} value={totalEq} icon={Truck} tone="blue" />
-        <DashboardStat label={t.dashboard.available} value={avail} icon={CheckCircle2} tone="emerald" />
-        <DashboardStat label={t.dashboard.activeRentals} value={active} icon={CalendarClock} tone="violet" />
-        <DashboardStat label={t.dashboard.revenue} value={formatMoney(revenue)} icon={CircleDollarSign} tone="teal" />
-        <DashboardStat label={t.dashboard.pendingPay} value={formatMoney(pendingPay)} icon={AlertCircle} tone="amber" />
-        <DashboardStat label={t.dashboard.inMaintenance} value={maintenance} icon={Wrench} tone="orange" />
+        <DashboardStat label={t.dashboard.totalEquipment} value={totalEq} icon={Truck} accent="info" />
+        <DashboardStat label={t.dashboard.available} value={avail} icon={CheckCircle2} accent="success" />
+        <DashboardStat label={t.dashboard.activeRentals} value={active} icon={CalendarClock} accent="accent" />
+        <DashboardStat label={t.dashboard.revenue} value={formatMoney(revenue)} icon={CircleDollarSign} accent="info" />
+        <DashboardStat label={t.dashboard.pendingPay} value={formatMoney(pendingPay)} icon={AlertCircle} accent="warning" />
+        <DashboardStat label={t.dashboard.inMaintenance} value={maintenance} icon={Wrench} accent="warning" />
       </div>
 
       {/* Charts */}
@@ -212,7 +213,7 @@ function AdminDashboard() {
               <h3 className="font-semibold text-foreground">{t.dashboard.monthlyRevenue}</h3>
               <p className="text-xs text-muted-foreground mt-0.5">{t.dashboard.lastSixMonths}</p>
             </div>
-            <div className="grid h-9 w-9 place-items-center rounded-lg bg-teal-500/10 text-teal-600">
+            <div className="grid h-9 w-9 place-items-center rounded-lg bg-accent/10 text-accent">
               <TrendingUp className="h-4 w-4" />
             </div>
           </div>

@@ -17,10 +17,10 @@ export function TrialPaywall() {
     <div className="min-h-svh bg-muted/30 flex flex-col">
       <header className="border-b bg-background px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-primary-foreground">
+          <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-accent">
             <Construction className="h-5 w-5" />
           </div>
-          <span className="font-bold">HERMS</span>
+          <span className="font-bold font-heading">HERMS</span>
         </div>
         <Button variant="ghost" size="sm" onClick={() => void handleSignOut()}>
           Sign out

@@ -325,7 +325,7 @@ function EquipmentCard({
       tabIndex={0}
       onClick={onSelect}
       onKeyDown={(ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); onSelect(); } }}
-      className="group rounded-xl border bg-background overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="group rounded-xl border bg-background overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       <div className="relative aspect-[4/3] bg-muted overflow-hidden">
         {showImage ? (

@@ -6,7 +6,7 @@ export function PageHeader({
   return (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3 mb-4 sm:mb-6 min-w-0">
       <div className="min-w-0">
-        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">{title}</h1>
+        <h1 className="text-xl sm:text-2xl font-bold font-heading tracking-tight text-foreground">{title}</h1>
         {description && <p className="text-xs sm:text-sm text-muted-foreground mt-1">{description}</p>}
       </div>
       {actions && <div className="flex gap-2 shrink-0">{actions}</div>}
@@ -26,7 +26,7 @@ export function StatCard({
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
           <div className={compact ? "text-[10px] font-medium uppercase tracking-wider text-muted-foreground leading-tight" : "text-xs font-medium uppercase tracking-wider text-muted-foreground"}>{label}</div>
-          <div className={compact ? "mt-1 text-lg font-bold text-foreground truncate" : "mt-2 text-2xl font-bold text-foreground"}>{value}</div>
+          <div className={compact ? "mt-1 text-lg font-bold font-mono text-foreground truncate" : "mt-2 text-2xl font-bold font-mono text-foreground"}>{value}</div>
           {hint && <div className="mt-1 text-xs text-muted-foreground">{hint}</div>}
         </div>
         {Icon && (

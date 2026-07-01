@@ -4,29 +4,29 @@ import { useLocale } from "@/lib/locale-context";
 
 const MAP: Record<string, string> = {
   // booking
-  pending: "bg-amber-100 text-amber-800 border-amber-200",
-  approved: "bg-blue-100 text-blue-800 border-blue-200",
-  rejected: "bg-rose-100 text-rose-800 border-rose-200",
-  assigned: "bg-indigo-100 text-indigo-800 border-indigo-200",
-  dispatched: "bg-sky-100 text-sky-800 border-sky-200",
-  active: "bg-emerald-100 text-emerald-800 border-emerald-200",
-  returned: "bg-violet-100 text-violet-800 border-violet-200",
-  completed: "bg-emerald-100 text-emerald-800 border-emerald-200",
-  cancelled: "bg-slate-200 text-slate-700 border-slate-300",
+  pending: "bg-warning/10 text-warning border-warning/20",
+  approved: "bg-info/10 text-info border-info/20",
+  rejected: "bg-destructive/10 text-destructive border-destructive/20",
+  assigned: "bg-info/10 text-info border-info/20",
+  dispatched: "bg-info/10 text-info border-info/20",
+  active: "bg-success/10 text-success border-success/20",
+  returned: "bg-muted text-muted-foreground border-border",
+  completed: "bg-success/10 text-success border-success/20",
+  cancelled: "bg-muted text-muted-foreground border-border",
   // payment
-  paid: "bg-emerald-100 text-emerald-800 border-emerald-200",
-  failed: "bg-rose-100 text-rose-800 border-rose-200",
-  refunded: "bg-slate-200 text-slate-700 border-slate-300",
+  paid: "bg-success/10 text-success border-success/20",
+  failed: "bg-destructive/10 text-destructive border-destructive/20",
+  refunded: "bg-muted text-muted-foreground border-border",
   // equipment
-  available: "bg-emerald-100 text-emerald-800 border-emerald-200",
-  booked: "bg-blue-100 text-blue-800 border-blue-200",
-  under_maintenance: "bg-amber-100 text-amber-800 border-amber-200",
-  out_of_service: "bg-rose-100 text-rose-800 border-rose-200",
+  available: "bg-success/10 text-success border-success/20",
+  booked: "bg-info/10 text-info border-info/20",
+  under_maintenance: "bg-warning/10 text-warning border-warning/20",
+  out_of_service: "bg-destructive/10 text-destructive border-destructive/20",
   // operator
-  on_leave: "bg-slate-200 text-slate-700 border-slate-300",
+  on_leave: "bg-muted text-muted-foreground border-border",
   // maintenance
-  scheduled: "bg-blue-100 text-blue-800 border-blue-200",
-  in_progress: "bg-amber-100 text-amber-800 border-amber-200",
+  scheduled: "bg-info/10 text-info border-info/20",
+  in_progress: "bg-warning/10 text-warning border-warning/20",
 };
 
 export function StatusBadge({ status, className }: { status: string; className?: string }) {
