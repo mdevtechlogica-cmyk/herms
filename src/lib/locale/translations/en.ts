@@ -1,3 +1,5 @@
+import { landingEn } from "./landing-en";
+
 export const en = {
   nav: {
     profile: "Profile",
@@ -16,6 +18,7 @@ export const en = {
     adminTax: "Tax & Locale",
     adminSubscription: "Plans",
     adminTeam: "Team",
+    adminAbout: "About",
     adminConsole: "HERMS",
     roleAdmin: "Shop admin",
     roleEmployee: "Employee",
@@ -62,6 +65,17 @@ export const en = {
     hasAccount: "Already have an account?",
     checkEmail: "Check your email to confirm your account, then sign in.",
     accountCreated: "Account created — welcome to HERMS",
+  },
+  about: {
+    title: "About",
+    pageDescription: "HERMS is developed by Techlogica IT DT Solutions.",
+    description:
+      "Techlogica IT DT Solutions is a leading software development company specializing in custom applications, OCI migrations, and industry-specific ERP solutions.",
+    visitWebsite: "Visit techlogica.com",
+    developedBy: "Designed & developed by",
+    hermsNote: "HERMS is a heavy equipment rental management platform by Techlogica IT DT Solutions.",
+    india: "India",
+    dubai: "Dubai",
   },
   dashboard: {
     title: "Dashboard",
@@ -185,6 +199,7 @@ export const en = {
     scheduled: "Scheduled",
     in_progress: "In progress",
   },
+  landing: landingEn,
 } as const;
 
 export type TranslationTree = typeof en;

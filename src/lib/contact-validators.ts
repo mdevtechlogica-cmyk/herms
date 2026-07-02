@@ -30,6 +30,18 @@ export function phoneNationalDigitLimits(countryCode: CountryCode): { min: numbe
       return { min: 10, max: 11 };
     case "SA":
       return { min: 9, max: 9 };
+    case "IT":
+      return { min: 9, max: 10 };
+    case "FR":
+      return { min: 9, max: 9 };
+    case "ES":
+      return { min: 9, max: 9 };
+    case "RU":
+      return { min: 10, max: 10 };
+    case "CN":
+      return { min: 11, max: 11 };
+    case "JP":
+      return { min: 10, max: 10 };
     default:
       return { min: 7, max: 15 };
   }

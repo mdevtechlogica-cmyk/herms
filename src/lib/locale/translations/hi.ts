@@ -1,4 +1,5 @@
 import type { TranslationTree } from "./en";
+import { landingHi } from "./landing-hi";
 
 export const hi: TranslationTree = {
   nav: {
@@ -18,6 +19,7 @@ export const hi: TranslationTree = {
     adminTax: "कर और भाषा",
     adminSubscription: "योजनाएँ",
     adminTeam: "टीम",
+    adminAbout: "के बारे में",
     adminConsole: "HERMS",
     roleAdmin: "दुकान व्यवस्थापक",
     roleEmployee: "कर्मचारी",
@@ -64,6 +66,17 @@ export const hi: TranslationTree = {
     hasAccount: "पहले से खाता है?",
     checkEmail: "अपना खाता पुष्टि करने के लिए ईमेल देखें, फिर साइन इन करें।",
     accountCreated: "खाता बन गया — HERMS में आपका स्वागत है",
+  },
+  about: {
+    title: "के बारे में",
+    pageDescription: "HERMS Techlogica IT DT Solutions द्वारा विकसित है।",
+    description:
+      "Techlogica IT DT Solutions एक अग्रणी सॉफ्टवेयर विकास कंपनी है जो कस्टम एप्लिकेशन, OCI माइग्रेशन और उद्योग-विशिष्ट ERP समाधान में विशेषज्ञता रखती है।",
+    visitWebsite: "techlogica.com पर जाएँ",
+    developedBy: "डिज़ाइन और विकास",
+    hermsNote: "HERMS Techlogica IT DT Solutions द्वारा निर्मित भारी उपकरण किराया प्रबंधन प्लेटफ़ॉर्म है।",
+    india: "भारत",
+    dubai: "दुबई",
   },
   dashboard: {
     title: "डैशबोर्ड",
@@ -187,4 +200,5 @@ export const hi: TranslationTree = {
     scheduled: "निर्धारित",
     in_progress: "प्रगति में",
   },
+  landing: landingHi,
 };

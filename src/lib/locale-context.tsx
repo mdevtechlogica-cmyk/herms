@@ -14,6 +14,7 @@ import { isMissingSchema } from "@/lib/errors";
 import {
   COUNTRIES,
   buildIntlLocale,
+  isRtlLanguage,
   type CountryCode,
   type LanguageCode,
 } from "@/lib/locale/countries";
@@ -117,7 +118,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     setFormatLocale(intlLocale, tax.currency_code);
     document.documentElement.lang = language;
-    document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+    document.documentElement.dir = isRtlLanguage(language) ? "rtl" : "ltr";
   }, [intlLocale, tax.currency_code, language]);
 
   const formatMoney = useCallback(

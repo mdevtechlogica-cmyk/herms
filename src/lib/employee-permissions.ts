@@ -84,6 +84,7 @@ export const ROUTE_PERMISSION_MAP: Record<string, EmployeePermissionKey | null> 
   "/admin/book-now": "book_now",
   "/admin/team": "team",
   "/profile": null,
+  "/about": null,
 };
 
 export function routeRequiresPermission(pathname: string): EmployeePermissionKey | null {

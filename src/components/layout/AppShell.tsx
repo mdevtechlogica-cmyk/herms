@@ -6,12 +6,13 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import {
   LayoutDashboard, Truck, ClipboardList, Wrench, Tags,
   CreditCard, FileText, User as UserIcon, LogOut, Construction, X,
-  MapPin, Crown, BarChart3, Users, PackageCheck,
+  MapPin, Crown, BarChart3, Users, PackageCheck, Info,
 } from "lucide-react";
 import { useLocale } from "@/lib/locale-context";
 import { isShopAdmin } from "@/lib/auth-access";
 import { canAccessRoute } from "@/lib/employee-permissions";
 import { TrialBanner } from "@/components/TrialBanner";
+import { TechlogicaAbout } from "@/components/TechlogicaAbout";
 import type { TranslationTree } from "@/lib/locale/translations/en";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -46,6 +47,7 @@ const ADMIN_NAV = [
   { to: "/admin/invoices", navKey: "adminInvoices" as NavKey, icon: FileText },
   { to: "/admin/team", navKey: "adminTeam" as NavKey, icon: Users },
   { to: "/admin/subscription", navKey: "adminSubscription" as NavKey, icon: Crown, adminOnly: true as const },
+  { to: "/about", navKey: "adminAbout" as NavKey, icon: Info },
   { to: "/profile", navKey: "profile" as NavKey, icon: UserIcon },
 ] as const;
 
@@ -203,7 +205,7 @@ export function AppShell() {
 
   const navItems = ADMIN_NAV.filter((item) => {
     if ("adminOnly" in item && item.adminOnly && !shopAdmin) return false;
-    if (item.to === "/admin/dashboard" || item.to === "/profile") return true;
+    if (item.to === "/admin/dashboard" || item.to === "/profile" || item.to === "/about") return true;
     return canAccessRoute(item.to, permissions, shopAdmin);
   });
 
@@ -251,6 +253,7 @@ export function AppShell() {
         >
           <TrialBanner />
           <Outlet />
+          <TechlogicaAbout variant="compact" className="mt-10 pb-2" />
         </div>
         <NativeBottomNav pathname={pathname} navLabels={t.nav} />
       </SidebarInset>

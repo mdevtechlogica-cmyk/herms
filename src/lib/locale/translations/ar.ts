@@ -1,4 +1,5 @@
 import type { TranslationTree } from "./en";
+import { landingAr } from "./landing-ar";
 
 export const ar: TranslationTree = {
   nav: {
@@ -18,6 +19,7 @@ export const ar: TranslationTree = {
     adminTax: "الضريبة واللغة",
     adminSubscription: "الخطط",
     adminTeam: "الفريق",
+    adminAbout: "حول",
     adminConsole: "HERMS",
     roleAdmin: "مدير المتجر",
     roleEmployee: "موظف",
@@ -64,6 +66,17 @@ export const ar: TranslationTree = {
     hasAccount: "لديك حساب بالفعل؟",
     checkEmail: "تحقق من بريدك لتأكيد الحساب، ثم سجّل الدخول.",
     accountCreated: "تم إنشاء الحساب — مرحباً بك في HERMS",
+  },
+  about: {
+    title: "حول",
+    pageDescription: "تم تطوير HERMS بواسطة Techlogica IT DT Solutions.",
+    description:
+      "Techlogica IT DT Solutions هي شركة رائدة في تطوير البرمجيات متخصصة في التطبيقات المخصصة وهجرات OCI وحلول ERP الخاصة بالصناعة.",
+    visitWebsite: "زيارة techlogica.com",
+    developedBy: "تصميم وتطوير",
+    hermsNote: "HERMS هي منصة لإدارة تأجير المعدات الثقيلة من Techlogica IT DT Solutions.",
+    india: "الهند",
+    dubai: "دبي",
   },
   dashboard: {
     title: "لوحة التحكم",
@@ -187,4 +200,5 @@ export const ar: TranslationTree = {
     scheduled: "مجدول",
     in_progress: "قيد التنفيذ",
   },
+  landing: landingAr,
 };

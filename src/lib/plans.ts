@@ -27,6 +27,12 @@ export const SUBSCRIPTION_MONTHLY_PRICE: Record<
   AU: { basic: 20, intermediate: 55, premium: 110 },
   CA: { basic: 20, intermediate: 50, premium: 100 },
   SG: { basic: 20, intermediate: 55, premium: 110 },
+  IT: { basic: 15, intermediate: 39, premium: 79 },
+  FR: { basic: 15, intermediate: 39, premium: 79 },
+  ES: { basic: 15, intermediate: 39, premium: 79 },
+  RU: { basic: 990, intermediate: 2590, premium: 5190 },
+  CN: { basic: 99, intermediate: 259, premium: 519 },
+  JP: { basic: 2200, intermediate: 5800, premium: 11500 },
 };
 
 export function getSubscriptionMonthlyPrice(

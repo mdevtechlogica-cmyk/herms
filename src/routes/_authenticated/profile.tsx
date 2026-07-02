@@ -6,11 +6,11 @@ import { useWorkspace } from "@/lib/workspace-context";
 import {
   COUNTRY_LIST,
   COUNTRIES,
+  LANGUAGE_LABELS,
   resolveLanguageForCountry,
   type CountryCode,
   type LanguageCode,
 } from "@/lib/locale/countries";
-import { db, supabase } from "@/lib/db";
 import { PageHeader } from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,12 +24,8 @@ import {
   validateNationalPhone,
 } from "@/lib/contact-validators";
 import { PhoneInput } from "@/components/PhoneInput";
-
-const LANGUAGE_LABELS: Record<LanguageCode, string> = {
-  en: "English",
-  hi: "हिन्दी",
-  ar: "العربية",
-};
+import { TechlogicaAbout } from "@/components/TechlogicaAbout";
+import { db, supabase } from "@/lib/db";
 
 export const Route = createFileRoute("/_authenticated/profile")({
   component: ProfilePage,
@@ -215,6 +211,9 @@ function ProfilePage() {
             <div className="font-medium">{profile?.email}</div>
           </div>
         </div>
+      </div>
+      <div className="mt-8">
+        <TechlogicaAbout variant="page" />
       </div>
     </>
   );
