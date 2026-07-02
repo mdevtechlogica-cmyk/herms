@@ -8,7 +8,7 @@
     "dev:mobile": "node scripts/sync-mobile-dev.mjs && node scripts/free-port.mjs 8080 && vite dev --host 0.0.0.0 --port 8080 --strictPort",
     "preview:mobile": "node scripts/preview-mobile.mjs",
     "mobile:serve": "node scripts/mobile-serve.mjs",
-    "build": "vite build",
+    "build": "node scripts/sync-firebase-config.mjs && node scripts/write-google-verification.mjs && vite build",
     "build:clean": "node scripts/clean-dist.mjs && vite build",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
@@ -36,7 +36,11 @@
     "apply:walkin-fix": "node scripts/apply-bookings-sql.mjs --file=supabase/RUN_WALKIN_BOOKING_FIX.sql",
     "apply:employee-permissions": "node scripts/apply-bookings-sql.mjs --file=supabase/RUN_EMPLOYEE_PERMISSIONS.sql",
     "apply:invite-employee": "node scripts/apply-bookings-sql.mjs --file=supabase/RUN_INVITE_EMPLOYEE.sql",
-    "apply:staff-branches": "node scripts/apply-bookings-sql.mjs --file=supabase/RUN_STAFF_BRANCH_ACCESS.sql"
+    "apply:staff-branches": "node scripts/apply-bookings-sql.mjs --file=supabase/RUN_STAFF_BRANCH_ACCESS.sql",
+    "apply:push-notifications": "node scripts/apply-bookings-sql.mjs --file=supabase/RUN_PUSH_NOTIFICATIONS.sql",
+    "sync:firebase-config": "node scripts/sync-firebase-config.mjs",
+    "setup:firebase-web": "node scripts/setup-firebase-web.mjs",
+    "ping:sitemap": "node scripts/ping-sitemap.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.0",
@@ -44,6 +48,7 @@
     "@capacitor/browser": "^8.0.3",
     "@capacitor/cli": "^8.4.0",
     "@capacitor/core": "^8.4.0",
+    "@capacitor/push-notifications": "^8.1.1",
     "@hookform/resolvers": "^5.2.2",
     "@lovable.dev/cloud-auth-js": "^1.1.2",
     "@radix-ui/react-accordion": "^1.2.12",
@@ -83,6 +88,8 @@
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
+    "firebase": "^12.15.0",
+    "firebase-admin": "^14.1.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.575.0",
     "react": "^19.2.0",

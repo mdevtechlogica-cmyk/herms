@@ -13,6 +13,8 @@ import { useInView } from "@/hooks/use-in-view";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { TechlogicaAbout } from "@/components/TechlogicaAbout";
+import { SeoJsonLd } from "@/components/SeoJsonLd";
+import { buildPageHead, landingJsonLd } from "@/lib/seo";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -41,14 +43,13 @@ import {
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "HERMS — Heavy Equipment Rental Management System" },
-      { name: "description", content: "Enterprise cloud platform for managing construction machinery fleets, rental bookings, preventative maintenance, and automated invoicing." },
-      { property: "og:title", content: "HERMS — Heavy Equipment Rental Management System" },
-      { property: "og:description", content: "Enterprise cloud platform for managing construction machinery fleets, rental bookings, preventative maintenance, and automated invoicing." },
-    ],
-  }),
+  head: () =>
+    buildPageHead({
+      title: "HERMS — Heavy Equipment Rental Management System",
+      description:
+        "Enterprise cloud platform for construction machinery fleets — rental bookings, preventive maintenance, dispatch, invoicing, and payments in one system.",
+      path: "/",
+    }),
   component: Index,
 });
 
@@ -161,6 +162,7 @@ function Index() {
 
   return (
     <div className="dark min-h-screen bg-background text-foreground selection:bg-accent/30 selection:text-foreground">
+      <SeoJsonLd data={landingJsonLd()} />
       {/* Navigation Header */}
       <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-background/85 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">

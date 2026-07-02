@@ -18,6 +18,8 @@ dist-ssr
 *.local
 .env
 .env.*.local
+firebase-service-account.json
+public/firebase-config.json
 
 # Wrangler / Cloudflare
 .wrangler/

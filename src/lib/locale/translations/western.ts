@@ -412,6 +412,101 @@ export const zh = mergeTranslations({
   },
 });
 
+const sharedNav = {
+  adminDashboard: "Dashboard",
+  adminBranches: "Branches",
+  adminEquipment: "Equipment",
+  adminCategories: "Categories",
+  adminBookings: "Bookings",
+  adminCollect: "Collect",
+  adminMaintenance: "Maintenance",
+  adminPayments: "Payments",
+  adminReports: "Reports",
+  adminInvoices: "Invoices",
+  adminSubscription: "Plans",
+  adminTeam: "Team",
+  adminAbout: "About",
+  roleAdmin: "Admin",
+  roleEmployee: "Employee",
+};
+
+export const de = mergeTranslations({
+  nav: { profile: "Profil", ...sharedNav },
+  common: { save: "Speichern", saving: "Speichern…", cancel: "Abbrechen", signOut: "Abmelden", loading: "Laden…", viewAll: "Alle anzeigen", close: "Schließen" },
+  profile: { title: "Profil", description: "Konto, Sprache und regionale Einstellungen verwalten.", personalInfo: "Persönliche und Unternehmensdaten", regionalSettings: "Regionale Einstellungen", country: "Land", language: "Sprache", fullName: "Vollständiger Name", companyName: "Firmenname", phone: "Telefon", address: "Adresse", changePassword: "Passwort ändern", newPassword: "Neues Passwort", updatePassword: "Passwort aktualisieren", email: "E-Mail", updated: "Profil aktualisiert" },
+  auth: { welcomeBack: "Willkommen zurück", signInDescription: "Mit E-Mail oder Google anmelden.", createAccount: "Konto erstellen", signUpDescription: "HERMS-Konto mit E-Mail oder Google erstellen.", signIn: "Anmelden", signUp: "Registrieren", noAccount: "Noch kein Konto?", hasAccount: "Bereits ein Konto?" },
+});
+
+export const pt = mergeTranslations({
+  nav: { profile: "Perfil", ...sharedNav },
+  common: { save: "Salvar", saving: "Salvando…", cancel: "Cancelar", signOut: "Sair", loading: "Carregando…", viewAll: "Ver tudo", close: "Fechar" },
+  profile: { title: "Perfil", description: "Gerencie conta, idioma e configurações regionais.", personalInfo: "Informações pessoais e da empresa", regionalSettings: "Configurações regionais", country: "País", language: "Idioma", fullName: "Nome completo", companyName: "Nome da empresa", phone: "Telefone", address: "Endereço", changePassword: "Alterar senha", newPassword: "Nova senha", updatePassword: "Atualizar senha", email: "E-mail", updated: "Perfil atualizado" },
+  auth: { welcomeBack: "Bem-vindo de volta", signInDescription: "Entre com e-mail ou Google.", createAccount: "Criar conta", signUpDescription: "Crie sua conta HERMS com e-mail ou Google.", signIn: "Entrar", signUp: "Cadastrar", noAccount: "Não tem conta?", hasAccount: "Já tem conta?" },
+});
+
+export const nl = mergeTranslations({
+  nav: { profile: "Profiel", ...sharedNav },
+  common: { save: "Opslaan", saving: "Opslaan…", cancel: "Annuleren", signOut: "Uitloggen", loading: "Laden…", viewAll: "Alles bekijken", close: "Sluiten" },
+  profile: { title: "Profiel", description: "Beheer account, taal en regionale instellingen.", personalInfo: "Persoonlijke en bedrijfsgegevens", regionalSettings: "Regionale instellingen", country: "Land", language: "Taal", fullName: "Volledige naam", companyName: "Bedrijfsnaam", phone: "Telefoon", address: "Adres", changePassword: "Wachtwoord wijzigen", newPassword: "Nieuw wachtwoord", updatePassword: "Wachtwoord bijwerken", email: "E-mail", updated: "Profiel bijgewerkt" },
+  auth: { welcomeBack: "Welkom terug", signInDescription: "Log in met e-mail of Google.", createAccount: "Account aanmaken", signUpDescription: "Maak uw HERMS-account met e-mail of Google.", signIn: "Inloggen", signUp: "Registreren", noAccount: "Geen account?", hasAccount: "Al een account?" },
+});
+
+export const ko = mergeTranslations({
+  nav: { profile: "프로필", ...sharedNav },
+  common: { save: "저장", saving: "저장 중…", cancel: "취소", signOut: "로그아웃", loading: "로딩 중…", viewAll: "전체 보기", close: "닫기" },
+  profile: { title: "프로필", description: "계정, 언어 및 지역 설정을 관리합니다.", personalInfo: "개인 및 회사 정보", regionalSettings: "지역 설정", country: "국가", language: "언어", fullName: "이름", companyName: "회사명", phone: "전화", address: "주소", changePassword: "비밀번호 변경", newPassword: "새 비밀번호", updatePassword: "비밀번호 업데이트", email: "이메일", updated: "프로필이 업데이트되었습니다" },
+  auth: { welcomeBack: "다시 오신 것을 환영합니다", signInDescription: "이메일 또는 Google로 로그인하세요.", createAccount: "계정 만들기", signUpDescription: "이메일 또는 Google로 HERMS 계정을 만드세요.", signIn: "로그인", signUp: "가입", noAccount: "계정이 없으신가요?", hasAccount: "이미 계정이 있으신가요?" },
+});
+
+export const tr = mergeTranslations({
+  nav: { profile: "Profil", ...sharedNav },
+  common: { save: "Kaydet", saving: "Kaydediliyor…", cancel: "İptal", signOut: "Çıkış", loading: "Yükleniyor…", viewAll: "Tümünü gör", close: "Kapat" },
+  profile: { title: "Profil", description: "Hesap, dil ve bölgesel ayarları yönetin.", personalInfo: "Kişisel ve şirket bilgileri", regionalSettings: "Bölgesel ayarlar", country: "Ülke", language: "Dil", fullName: "Ad soyad", companyName: "Şirket adı", phone: "Telefon", address: "Adres", changePassword: "Şifre değiştir", newPassword: "Yeni şifre", updatePassword: "Şifreyi güncelle", email: "E-posta", updated: "Profil güncellendi" },
+  auth: { welcomeBack: "Tekrar hoş geldiniz", signInDescription: "E-posta veya Google ile giriş yapın.", createAccount: "Hesap oluştur", signUpDescription: "E-posta veya Google ile HERMS hesabı oluşturun.", signIn: "Giriş", signUp: "Kayıt ol", noAccount: "Hesabınız yok mu?", hasAccount: "Zaten hesabınız var mı?" },
+});
+
+export const id = mergeTranslations({
+  nav: { profile: "Profil", ...sharedNav },
+  common: { save: "Simpan", saving: "Menyimpan…", cancel: "Batal", signOut: "Keluar", loading: "Memuat…", viewAll: "Lihat semua", close: "Tutup" },
+  profile: { title: "Profil", description: "Kelola akun, bahasa, dan pengaturan regional.", personalInfo: "Informasi pribadi dan perusahaan", regionalSettings: "Pengaturan regional", country: "Negara", language: "Bahasa", fullName: "Nama lengkap", companyName: "Nama perusahaan", phone: "Telepon", address: "Alamat", changePassword: "Ubah kata sandi", newPassword: "Kata sandi baru", updatePassword: "Perbarui kata sandi", email: "Email", updated: "Profil diperbarui" },
+  auth: { welcomeBack: "Selamat datang kembali", signInDescription: "Masuk dengan email atau Google.", createAccount: "Buat akun", signUpDescription: "Buat akun HERMS dengan email atau Google.", signIn: "Masuk", signUp: "Daftar", noAccount: "Belum punya akun?", hasAccount: "Sudah punya akun?" },
+});
+
+export const th = mergeTranslations({
+  nav: { profile: "โปรไฟล์", ...sharedNav },
+  common: { save: "บันทึก", saving: "กำลังบันทึก…", cancel: "ยกเลิก", signOut: "ออกจากระบบ", loading: "กำลังโหลด…", viewAll: "ดูทั้งหมด", close: "ปิด" },
+  profile: { title: "โปรไฟล์", description: "จัดการบัญชี ภาษา และการตั้งค่าภูมิภาค", personalInfo: "ข้อมูลส่วนตัวและบริษัท", regionalSettings: "การตั้งค่าภูมิภาค", country: "ประเทศ", language: "ภาษา", fullName: "ชื่อ-นามสกุล", companyName: "ชื่อบริษัท", phone: "โทรศัพท์", address: "ที่อยู่", changePassword: "เปลี่ยนรหัสผ่าน", newPassword: "รหัสผ่านใหม่", updatePassword: "อัปเดตรหัสผ่าน", email: "อีเมล", updated: "อัปเดตโปรไฟล์แล้ว" },
+  auth: { welcomeBack: "ยินดีต้อนรับกลับ", signInDescription: "เข้าสู่ระบบด้วยอีเมลหรือ Google", createAccount: "สร้างบัญชี", signUpDescription: "สร้างบัญชี HERMS ด้วยอีเมลหรือ Google", signIn: "เข้าสู่ระบบ", signUp: "สมัคร", noAccount: "ยังไม่มีบัญชี?", hasAccount: "มีบัญชีอยู่แล้ว?" },
+});
+
+export const vi = mergeTranslations({
+  nav: { profile: "Hồ sơ", ...sharedNav },
+  common: { save: "Lưu", saving: "Đang lưu…", cancel: "Hủy", signOut: "Đăng xuất", loading: "Đang tải…", viewAll: "Xem tất cả", close: "Đóng" },
+  profile: { title: "Hồ sơ", description: "Quản lý tài khoản, ngôn ngữ và cài đặt khu vực.", personalInfo: "Thông tin cá nhân và công ty", regionalSettings: "Cài đặt khu vực", country: "Quốc gia", language: "Ngôn ngữ", fullName: "Họ và tên", companyName: "Tên công ty", phone: "Điện thoại", address: "Địa chỉ", changePassword: "Đổi mật khẩu", newPassword: "Mật khẩu mới", updatePassword: "Cập nhật mật khẩu", email: "Email", updated: "Đã cập nhật hồ sơ" },
+  auth: { welcomeBack: "Chào mừng trở lại", signInDescription: "Đăng nhập bằng email hoặc Google.", createAccount: "Tạo tài khoản", signUpDescription: "Tạo tài khoản HERMS bằng email hoặc Google.", signIn: "Đăng nhập", signUp: "Đăng ký", noAccount: "Chưa có tài khoản?", hasAccount: "Đã có tài khoản?" },
+});
+
+export const pl = mergeTranslations({
+  nav: { profile: "Profil", ...sharedNav },
+  common: { save: "Zapisz", saving: "Zapisywanie…", cancel: "Anuluj", signOut: "Wyloguj", loading: "Ładowanie…", viewAll: "Zobacz wszystko", close: "Zamknij" },
+  profile: { title: "Profil", description: "Zarządzaj kontem, językiem i ustawieniami regionalnymi.", personalInfo: "Dane osobowe i firmowe", regionalSettings: "Ustawienia regionalne", country: "Kraj", language: "Język", fullName: "Imię i nazwisko", companyName: "Nazwa firmy", phone: "Telefon", address: "Adres", changePassword: "Zmień hasło", newPassword: "Nowe hasło", updatePassword: "Zaktualizuj hasło", email: "E-mail", updated: "Profil zaktualizowany" },
+  auth: { welcomeBack: "Witamy ponownie", signInDescription: "Zaloguj się przez e-mail lub Google.", createAccount: "Utwórz konto", signUpDescription: "Utwórz konto HERMS przez e-mail lub Google.", signIn: "Zaloguj", signUp: "Zarejestruj", noAccount: "Nie masz konta?", hasAccount: "Masz już konto?" },
+});
+
+export const uk = mergeTranslations({
+  nav: { profile: "Профіль", ...sharedNav },
+  common: { save: "Зберегти", saving: "Збереження…", cancel: "Скасувати", signOut: "Вийти", loading: "Завантаження…", viewAll: "Переглянути все", close: "Закрити" },
+  profile: { title: "Профіль", description: "Керуйте обліковим записом, мовою та регіональними налаштуваннями.", personalInfo: "Особисті та корпоративні дані", regionalSettings: "Регіональні налаштування", country: "Країна", language: "Мова", fullName: "Повне ім'я", companyName: "Назва компанії", phone: "Телефон", address: "Адреса", changePassword: "Змінити пароль", newPassword: "Новий пароль", updatePassword: "Оновити пароль", email: "Ел. пошта", updated: "Профіль оновлено" },
+  auth: { welcomeBack: "З поверненням", signInDescription: "Увійдіть через email або Google.", createAccount: "Створити обліковий запис", signUpDescription: "Створіть обліковий запис HERMS через email або Google.", signIn: "Увійти", signUp: "Реєстрація", noAccount: "Немає облікового запису?", hasAccount: "Вже є обліковий запис?" },
+});
+
+export const zhHant = mergeTranslations({
+  nav: { profile: "個人資料", adminDashboard: "儀表板", adminBranches: "分支機構", adminEquipment: "設備", adminCategories: "類別", adminBookings: "預訂", adminCollect: "回收", adminMaintenance: "維護", adminPayments: "付款", adminReports: "報告", adminInvoices: "發票", adminSubscription: "方案", adminTeam: "團隊", adminAbout: "關於", roleAdmin: "管理員", roleEmployee: "員工" },
+  common: { save: "儲存變更", saving: "儲存中…", cancel: "取消", signOut: "登出", loading: "載入中…", viewAll: "查看全部", close: "關閉" },
+  profile: { title: "個人資料", description: "管理帳戶、語言及區域設定。", personalInfo: "個人與公司資訊", regionalSettings: "區域設定", country: "國家/地區", language: "語言", fullName: "全名", companyName: "公司名稱", phone: "電話", address: "地址", changePassword: "變更密碼", newPassword: "新密碼", updatePassword: "更新密碼", email: "電子郵件", updated: "資料已更新" },
+  auth: { welcomeBack: "歡迎回來", signInDescription: "使用電子郵件或 Google 登入。", createAccount: "建立帳戶", signUpDescription: "使用電子郵件或 Google 建立 HERMS 帳戶。", signIn: "登入", signUp: "註冊", noAccount: "還沒有帳戶？", hasAccount: "已有帳戶？" },
+});
+
 export const ja = mergeTranslations({
   nav: {
     profile: "プロフィール",

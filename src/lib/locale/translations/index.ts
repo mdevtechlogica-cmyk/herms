@@ -1,18 +1,26 @@
-import type { LanguageCode } from "../countries";
+import { LANGUAGE_CODES, type LanguageCode } from "../countries";
 import { ar } from "./ar";
 import { en, type TranslationTree } from "./en";
 import { hi } from "./hi";
 import {
-  bn,
-  gu,
-  kn,
-  ml,
-  mr,
-  pa,
-  ta,
-  te,
-} from "./indian";
-import { es, fr, it, ja, ru, zh } from "./western";
+  de,
+  es,
+  fr,
+  id,
+  it,
+  ja,
+  ko,
+  nl,
+  pl,
+  pt,
+  ru,
+  th,
+  tr,
+  uk,
+  vi,
+  zh,
+  zhHant,
+} from "./western";
 
 /** Languages with completed generated/*.json files (run scripts/generate-locale-translations.mjs). */
 const GENERATED_LOCALE_IMPORTS = import.meta.glob<TranslationTree>("./generated/*.json", {
@@ -31,49 +39,36 @@ function generatedLocale(code: string): TranslationTree | null {
   return isValidGeneratedTree(mod) ? mod : null;
 }
 
-const fallback: Record<Exclude<LanguageCode, "en" | "hi" | "ar">, TranslationTree> = {
-  it,
-  fr,
+const HAND_WRITTEN = { en, hi, ar } as const satisfies Record<"en" | "hi" | "ar", TranslationTree>;
+
+const PARTIAL: Partial<Record<LanguageCode, TranslationTree>> = {
   es,
+  fr,
+  de,
+  pt,
+  it,
+  nl,
   ru,
   zh,
+  "zh-Hant": zhHant,
   ja,
-  ta,
-  te,
-  bn,
-  mr,
-  kn,
-  ml,
-  gu,
-  pa,
+  ko,
+  tr,
+  id,
+  th,
+  vi,
+  pl,
+  uk,
 };
 
 function resolveLocale(code: LanguageCode): TranslationTree {
-  if (code === "en" || code === "hi" || code === "ar") {
-    return { en, hi, ar }[code];
-  }
-  return generatedLocale(code) ?? fallback[code];
+  if (code in HAND_WRITTEN) return HAND_WRITTEN[code as keyof typeof HAND_WRITTEN];
+  return generatedLocale(code) ?? PARTIAL[code] ?? en;
 }
 
-export const TRANSLATIONS = {
-  en,
-  hi,
-  ar,
-  it: resolveLocale("it"),
-  fr: resolveLocale("fr"),
-  es: resolveLocale("es"),
-  ru: resolveLocale("ru"),
-  zh: resolveLocale("zh"),
-  ja: resolveLocale("ja"),
-  ta: resolveLocale("ta"),
-  te: resolveLocale("te"),
-  bn: resolveLocale("bn"),
-  mr: resolveLocale("mr"),
-  kn: resolveLocale("kn"),
-  ml: resolveLocale("ml"),
-  gu: resolveLocale("gu"),
-  pa: resolveLocale("pa"),
-} as const satisfies Record<LanguageCode, TranslationTree>;
+export const TRANSLATIONS = Object.fromEntries(
+  LANGUAGE_CODES.map((code) => [code, resolveLocale(code)]),
+) as Record<LanguageCode, TranslationTree>;
 
 export function getTranslations(language: LanguageCode): TranslationTree {
   return TRANSLATIONS[language] ?? TRANSLATIONS.en;

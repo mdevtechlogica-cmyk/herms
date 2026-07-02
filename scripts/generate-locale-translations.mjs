@@ -11,20 +11,23 @@ const root = join(__dirname, "..");
 const outDir = join(root, "src/lib/locale/translations/generated");
 
 const TARGETS = {
-  it: "it",
-  fr: "fr",
   es: "es",
+  fr: "fr",
+  de: "de",
+  pt: "pt",
+  it: "it",
+  nl: "nl",
   ru: "ru",
   zh: "zh-CN",
+  "zh-Hant": "zh-TW",
   ja: "ja",
-  ta: "ta",
-  te: "te",
-  bn: "bn",
-  mr: "mr",
-  kn: "kn",
-  ml: "ml",
-  gu: "gu",
-  pa: "pa",
+  ko: "ko",
+  tr: "tr",
+  id: "id",
+  th: "th",
+  vi: "vi",
+  pl: "pl",
+  uk: "uk",
 };
 
 const DELAY_MS = 350;

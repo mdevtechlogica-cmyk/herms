@@ -1,21 +1,24 @@
 export const LANGUAGE_CODES = [
   "en",
-  "hi",
-  "ar",
-  "it",
-  "fr",
   "es",
+  "fr",
+  "de",
+  "pt",
+  "it",
+  "nl",
   "ru",
+  "ar",
   "zh",
+  "zh-Hant",
   "ja",
-  "ta",
-  "te",
-  "bn",
-  "mr",
-  "kn",
-  "ml",
-  "gu",
-  "pa",
+  "ko",
+  "hi",
+  "tr",
+  "id",
+  "th",
+  "vi",
+  "pl",
+  "uk",
 ] as const;
 
 export type LanguageCode = (typeof LANGUAGE_CODES)[number];
@@ -35,7 +38,19 @@ export type CountryCode =
   | "ES"
   | "RU"
   | "CN"
-  | "JP";
+  | "JP"
+  | "DE"
+  | "BR"
+  | "PT"
+  | "NL"
+  | "KR"
+  | "TR"
+  | "ID"
+  | "TH"
+  | "VN"
+  | "PL"
+  | "UA"
+  | "TW";
 
 export interface CountryConfig {
   code: CountryCode;
@@ -53,25 +68,38 @@ export interface CountryConfig {
 
 export const LANGUAGE_LABELS: Record<LanguageCode, string> = {
   en: "English",
-  hi: "हिन्दी",
-  ar: "العربية",
-  it: "Italiano",
-  fr: "Français",
   es: "Español",
+  fr: "Français",
+  de: "Deutsch",
+  pt: "Português",
+  it: "Italiano",
+  nl: "Nederlands",
   ru: "Русский",
-  zh: "中文",
+  ar: "العربية",
+  zh: "中文（简体）",
+  "zh-Hant": "中文（繁體）",
   ja: "日本語",
-  ta: "தமிழ்",
-  te: "తెలుగు",
-  bn: "বাংলা",
-  mr: "मराठी",
-  kn: "ಕನ್ನಡ",
-  ml: "മലയാളം",
-  gu: "ગુજરાતી",
-  pa: "ਪੰਜਾਬੀ",
+  ko: "한국어",
+  hi: "हिन्दी",
+  tr: "Türkçe",
+  id: "Bahasa Indonesia",
+  th: "ไทย",
+  vi: "Tiếng Việt",
+  pl: "Polski",
+  uk: "Українська",
 };
 
-const INDIAN_LANGUAGES: LanguageCode[] = ["en", "hi", "ta", "te", "bn", "mr", "kn", "ml", "gu", "pa"];
+/** Map removed Indian regional codes to Hindi for stored preferences. */
+const LEGACY_LANGUAGE_ALIASES: Record<string, LanguageCode> = {
+  ta: "hi",
+  te: "hi",
+  bn: "hi",
+  mr: "hi",
+  kn: "hi",
+  ml: "hi",
+  gu: "hi",
+  pa: "hi",
+};
 
 export const COUNTRIES: Record<CountryCode, CountryConfig> = {
   IN: {
@@ -83,7 +111,7 @@ export const COUNTRIES: Record<CountryCode, CountryConfig> = {
     taxRate: 0.18,
     taxIdLabel: "GST Number",
     dialCode: "+91",
-    languages: INDIAN_LANGUAGES,
+    languages: ["en", "hi"],
     defaultLanguage: "en",
   },
   US: {
@@ -143,7 +171,7 @@ export const COUNTRIES: Record<CountryCode, CountryConfig> = {
     taxRate: 0.19,
     taxIdLabel: "VAT Number",
     dialCode: "+",
-    languages: ["en", "fr", "es", "it"],
+    languages: ["en", "fr", "de", "es", "it", "nl", "pl"],
     defaultLanguage: "en",
   },
   AU: {
@@ -254,27 +282,174 @@ export const COUNTRIES: Record<CountryCode, CountryConfig> = {
     languages: ["ja", "en"],
     defaultLanguage: "ja",
   },
+  DE: {
+    code: "DE",
+    name: "Germany",
+    currency: "EUR",
+    intlLocale: "de-DE",
+    taxName: "MwSt",
+    taxRate: 0.19,
+    taxIdLabel: "USt-IdNr",
+    dialCode: "+49",
+    languages: ["de", "en"],
+    defaultLanguage: "de",
+  },
+  BR: {
+    code: "BR",
+    name: "Brazil",
+    currency: "BRL",
+    intlLocale: "pt-BR",
+    taxName: "ICMS",
+    taxRate: 0.17,
+    taxIdLabel: "CNPJ",
+    dialCode: "+55",
+    languages: ["pt", "en"],
+    defaultLanguage: "pt",
+  },
+  PT: {
+    code: "PT",
+    name: "Portugal",
+    currency: "EUR",
+    intlLocale: "pt-PT",
+    taxName: "IVA",
+    taxRate: 0.23,
+    taxIdLabel: "NIF",
+    dialCode: "+351",
+    languages: ["pt", "en"],
+    defaultLanguage: "pt",
+  },
+  NL: {
+    code: "NL",
+    name: "Netherlands",
+    currency: "EUR",
+    intlLocale: "nl-NL",
+    taxName: "BTW",
+    taxRate: 0.21,
+    taxIdLabel: "BTW-nummer",
+    dialCode: "+31",
+    languages: ["nl", "en"],
+    defaultLanguage: "nl",
+  },
+  KR: {
+    code: "KR",
+    name: "South Korea",
+    currency: "KRW",
+    intlLocale: "ko-KR",
+    taxName: "VAT",
+    taxRate: 0.1,
+    taxIdLabel: "Business Registration Number",
+    dialCode: "+82",
+    languages: ["ko", "en"],
+    defaultLanguage: "ko",
+  },
+  TR: {
+    code: "TR",
+    name: "Türkiye",
+    currency: "TRY",
+    intlLocale: "tr-TR",
+    taxName: "KDV",
+    taxRate: 0.2,
+    taxIdLabel: "Vergi No",
+    dialCode: "+90",
+    languages: ["tr", "en"],
+    defaultLanguage: "tr",
+  },
+  ID: {
+    code: "ID",
+    name: "Indonesia",
+    currency: "IDR",
+    intlLocale: "id-ID",
+    taxName: "PPN",
+    taxRate: 0.11,
+    taxIdLabel: "NPWP",
+    dialCode: "+62",
+    languages: ["id", "en"],
+    defaultLanguage: "id",
+  },
+  TH: {
+    code: "TH",
+    name: "Thailand",
+    currency: "THB",
+    intlLocale: "th-TH",
+    taxName: "VAT",
+    taxRate: 0.07,
+    taxIdLabel: "Tax ID",
+    dialCode: "+66",
+    languages: ["th", "en"],
+    defaultLanguage: "th",
+  },
+  VN: {
+    code: "VN",
+    name: "Vietnam",
+    currency: "VND",
+    intlLocale: "vi-VN",
+    taxName: "VAT",
+    taxRate: 0.1,
+    taxIdLabel: "Tax Code",
+    dialCode: "+84",
+    languages: ["vi", "en"],
+    defaultLanguage: "vi",
+  },
+  PL: {
+    code: "PL",
+    name: "Poland",
+    currency: "PLN",
+    intlLocale: "pl-PL",
+    taxName: "VAT",
+    taxRate: 0.23,
+    taxIdLabel: "NIP",
+    dialCode: "+48",
+    languages: ["pl", "en"],
+    defaultLanguage: "pl",
+  },
+  UA: {
+    code: "UA",
+    name: "Ukraine",
+    currency: "UAH",
+    intlLocale: "uk-UA",
+    taxName: "ПДВ",
+    taxRate: 0.2,
+    taxIdLabel: "ЄДРПОУ",
+    dialCode: "+380",
+    languages: ["uk", "en"],
+    defaultLanguage: "uk",
+  },
+  TW: {
+    code: "TW",
+    name: "Taiwan",
+    currency: "TWD",
+    intlLocale: "zh-TW",
+    taxName: "VAT",
+    taxRate: 0.05,
+    taxIdLabel: "Tax ID",
+    dialCode: "+886",
+    languages: ["zh-Hant", "en"],
+    defaultLanguage: "zh-Hant",
+  },
 };
 
 export const COUNTRY_LIST = Object.values(COUNTRIES);
 
 const LANGUAGE_INTL_LOCALE: Partial<Record<LanguageCode, string>> = {
   hi: "hi-IN",
-  ta: "ta-IN",
-  te: "te-IN",
-  bn: "bn-IN",
-  mr: "mr-IN",
-  kn: "kn-IN",
-  ml: "ml-IN",
-  gu: "gu-IN",
-  pa: "pa-IN",
   it: "it-IT",
   fr: "fr-FR",
   es: "es-ES",
+  de: "de-DE",
+  pt: "pt-BR",
+  nl: "nl-NL",
   ru: "ru-RU",
   zh: "zh-CN",
+  "zh-Hant": "zh-TW",
   ja: "ja-JP",
+  ko: "ko-KR",
   ar: "ar",
+  tr: "tr-TR",
+  id: "id-ID",
+  th: "th-TH",
+  vi: "vi-VN",
+  pl: "pl-PL",
+  uk: "uk-UA",
 };
 
 export function isCountryCode(value: string): value is CountryCode {
@@ -283,6 +458,12 @@ export function isCountryCode(value: string): value is CountryCode {
 
 export function isLanguageCode(value: string): value is LanguageCode {
   return (LANGUAGE_CODES as readonly string[]).includes(value);
+}
+
+export function normalizeLanguageCode(value: string | null | undefined): LanguageCode | null {
+  if (!value) return null;
+  if (isLanguageCode(value)) return value;
+  return LEGACY_LANGUAGE_ALIASES[value] ?? null;
 }
 
 export function resolveCountryCode(
@@ -298,21 +479,18 @@ export function resolveLanguageForCountry(
   preferred: string | null | undefined,
   fallback: LanguageCode,
 ): LanguageCode {
+  const normalized = normalizeLanguageCode(preferred);
   const langs = COUNTRIES[countryCode].languages;
-  if (preferred && isLanguageCode(preferred) && langs.includes(preferred)) {
-    return preferred;
+  if (normalized && langs.includes(normalized)) {
+    return normalized;
   }
   if (langs.includes(fallback)) return fallback;
   return langs[0];
 }
 
-/** Languages available for UI pickers (union of all country languages, deduped). */
+/** All supported UI languages (fixed global list). */
 export function allAvailableLanguages(): LanguageCode[] {
-  const set = new Set<LanguageCode>();
-  for (const country of COUNTRY_LIST) {
-    for (const lang of country.languages) set.add(lang);
-  }
-  return LANGUAGE_CODES.filter((code) => set.has(code));
+  return [...LANGUAGE_CODES];
 }
 
 /** Build a BCP-47 tag that Intl APIs accept for the chosen language + country. */

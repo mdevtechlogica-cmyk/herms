@@ -4,9 +4,16 @@ import { useAuth } from "@/lib/auth-context";
 import { isAllowedAppUser, AUTH_ACCESS_DENIED_MESSAGE } from "@/lib/auth-access";
 import { usePlan } from "@/lib/plan-context";
 import { AppShell } from "@/components/layout/AppShell";
+import { buildPageHead } from "@/lib/seo";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated")({
+  head: () =>
+    buildPageHead({
+      title: "Dashboard — HERMS",
+      description: "HERMS rental fleet management dashboard.",
+      noindex: true,
+    }),
   component: Layout,
 });
 

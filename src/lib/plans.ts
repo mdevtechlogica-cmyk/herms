@@ -33,6 +33,18 @@ export const SUBSCRIPTION_MONTHLY_PRICE: Record<
   RU: { basic: 990, intermediate: 2590, premium: 5190 },
   CN: { basic: 99, intermediate: 259, premium: 519 },
   JP: { basic: 2200, intermediate: 5800, premium: 11500 },
+  DE: { basic: 15, intermediate: 39, premium: 79 },
+  BR: { basic: 79, intermediate: 199, premium: 399 },
+  PT: { basic: 15, intermediate: 39, premium: 79 },
+  NL: { basic: 15, intermediate: 39, premium: 79 },
+  KR: { basic: 19000, intermediate: 49000, premium: 99000 },
+  TR: { basic: 499, intermediate: 1299, premium: 2499 },
+  ID: { basic: 249000, intermediate: 649000, premium: 1299000 },
+  TH: { basic: 499, intermediate: 1299, premium: 2499 },
+  VN: { basic: 399000, intermediate: 999000, premium: 1999000 },
+  PL: { basic: 59, intermediate: 149, premium: 299 },
+  UA: { basic: 599, intermediate: 1499, premium: 2999 },
+  TW: { basic: 499, intermediate: 1299, premium: 2499 },
 };
 
 export function getSubscriptionMonthlyPrice(

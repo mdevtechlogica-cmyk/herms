@@ -42,6 +42,30 @@ export function phoneNationalDigitLimits(countryCode: CountryCode): { min: numbe
       return { min: 11, max: 11 };
     case "JP":
       return { min: 10, max: 10 };
+    case "DE":
+      return { min: 10, max: 11 };
+    case "BR":
+      return { min: 10, max: 11 };
+    case "PT":
+      return { min: 9, max: 9 };
+    case "NL":
+      return { min: 9, max: 9 };
+    case "KR":
+      return { min: 9, max: 10 };
+    case "TR":
+      return { min: 10, max: 10 };
+    case "ID":
+      return { min: 9, max: 12 };
+    case "TH":
+      return { min: 9, max: 9 };
+    case "VN":
+      return { min: 9, max: 10 };
+    case "PL":
+      return { min: 9, max: 9 };
+    case "UA":
+      return { min: 9, max: 9 };
+    case "TW":
+      return { min: 9, max: 9 };
     default:
       return { min: 7, max: 15 };
   }

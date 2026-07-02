@@ -24,6 +24,7 @@ import { Label } from "@/components/ui/label";
 import { Construction, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { useLocale } from "@/lib/locale-context";
+import { buildPageHead } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 const AUTH_IMAGES = [
@@ -51,12 +52,13 @@ export const Route = createFileRoute("/auth/")({
   validateSearch: (search: Record<string, unknown>): AuthSearch => ({
     mode: search.mode === "signup" ? "signup" : undefined,
   }),
-  head: () => ({
-    meta: [
-      { title: "Sign in — HERMS" },
-      { name: "description", content: "Sign in or create a HERMS account." },
-    ],
-  }),
+  head: () =>
+    buildPageHead({
+      title: "Sign in — HERMS",
+      description: "Sign in or create a HERMS account to manage your heavy equipment rental fleet.",
+      path: "/auth",
+      noindex: true,
+    }),
   component: AuthPage,
 });
 

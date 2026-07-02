@@ -4,7 +4,7 @@ import {
   type CountryCode,
   type LanguageCode,
   isCountryCode,
-  isLanguageCode,
+  normalizeLanguageCode,
 } from "@/lib/locale/countries";
 
 export const LOCALE_STORAGE_KEY = "herms_locale_prefs_v2";
@@ -42,9 +42,7 @@ function parseStored(raw: string | null): LocalePrefs | null {
     const country =
       parsed.country && isCountryCode(parsed.country) ? parsed.country : "IN";
     const language =
-      parsed.language && isLanguageCode(parsed.language)
-        ? parsed.language
-        : COUNTRIES[country].defaultLanguage;
+      normalizeLanguageCode(parsed.language) ?? COUNTRIES[country].defaultLanguage;
     return { country, language, userSet: Boolean(parsed.userSet) };
   } catch {
     return null;
@@ -125,8 +123,7 @@ export function resolveLocalePrefs(
     (profileCountry && isCountryCode(profileCountry) ? profileCountry : null)
     ?? stored.country;
 
-  const profileLang =
-    profileLanguage && isLanguageCode(profileLanguage) ? profileLanguage : null;
+  const profileLang = normalizeLanguageCode(profileLanguage);
 
   const language = profileLang ?? stored.language ?? COUNTRIES[country].defaultLanguage;
   return { country, language, userSet: false };
