@@ -22,6 +22,8 @@ export const SEO = {
   ogImagePath: "/images/hero-equipment.jpg",
   themeColor: "#1c1917",
   locale: "en_US",
+  /** Public Search Console verification token (also overridable via VITE_GOOGLE_SITE_VERIFICATION). */
+  googleSiteVerification: "QNZKdci-E56Jh7hMznHH7ezWs07tLnv9e4PKQtk8XXw",
 } as const;
 
 type HeadMeta =
@@ -65,7 +67,7 @@ export function getSiteOrigin(): string {
 
 export function getGoogleSiteVerification(): string | null {
   const token = (import.meta.env.VITE_GOOGLE_SITE_VERIFICATION as string | undefined)?.trim();
-  return token || null;
+  return token || SEO.googleSiteVerification || null;
 }
 
 export function getGoogleSiteVerificationHtmlToken(): string | null {
