@@ -14,7 +14,7 @@ export const landingAr = {
     "أدر أسطولك بسلاسة، وأتمتة حجوزات العملاء، وجدول الصيانة، وأرسل الآلات، واجمع المدفوعات في الوقت الفعلي.",
   heroStartTrial: "ابدأ التجربة المجانية 15 يومًا",
   heroExplore: "استكشف المميزات",
-  dashboardUrl: "dashboard.herms.io",
+  dashboardUrl: "herms.app",
   dashboardActiveRentals: "الإيجارات النشطة",
   dashboardFleetUtilization: "استخدام الأسطول 85.7% هذا الأسبوع",
   dashboardRevenue: "الإيرادات (يونيو)",

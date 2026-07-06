@@ -1,4 +1,5 @@
 import { TECHLOGICA_WEBSITE } from "@/lib/techlogica";
+import { normalizePublicOrigin } from "@/lib/site-url";
 
 export const SEO = {
   siteName: "HERMS",
@@ -52,13 +53,8 @@ export function getSiteOrigin(): string {
   ];
 
   for (const raw of candidates) {
-    const value = raw?.trim();
-    if (!value) continue;
-    try {
-      return new URL(value).origin;
-    } catch {
-      // try next
-    }
+    const normalized = normalizePublicOrigin(raw);
+    if (normalized) return normalized;
   }
 
   if (typeof window !== "undefined") return window.location.origin;

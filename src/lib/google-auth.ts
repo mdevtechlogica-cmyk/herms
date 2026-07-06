@@ -1,6 +1,7 @@
 import { isNativeApp } from "@/lib/native";
 import { NATIVE_OAUTH_REDIRECT } from "@/lib/oauth-native";
 import { supabase } from "@/lib/db";
+import { normalizePublicOrigin } from "@/lib/site-url";
 
 const AUTH_CALLBACK_PATH = "/auth/callback";
 const OAUTH_ORIGIN_KEY = "herms_oauth_origin";
@@ -54,6 +55,8 @@ function readStoredOrigin(): string | undefined {
 
 function readConfiguredOrigin(): string | undefined {
   const configured = envAppUrl();
+  const normalized = normalizePublicOrigin(configured);
+  if (normalized && isUsableOrigin(normalized)) return normalized;
   return configured && isUsableOrigin(configured) ? configured : undefined;
 }
 
@@ -72,9 +75,15 @@ export function seedOAuthOrigin(): void {
 
 export function getAppOrigin(): string {
   const live = readLiveOrigin();
-  if (live) return live;
+  if (live) {
+    const normalized = normalizePublicOrigin(live);
+    return normalized ?? live;
+  }
   const stored = readStoredOrigin();
-  if (stored) return stored;
+  if (stored) {
+    const normalized = normalizePublicOrigin(stored);
+    return normalized ?? stored;
+  }
   const configured = readConfiguredOrigin();
   if (configured) return configured;
   return "http://localhost:8080";

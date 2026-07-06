@@ -14,7 +14,7 @@ export const landingHi = {
     "अपने बेड़े का प्रबंधन करें, ग्राहक बुकिंग को स्वचालित करें, रखरखाव का समय निर्धारित करें, मशीनरी भेजें, और रियल-टाइम में भुगतान एकत्र करें।",
   heroStartTrial: "15-दिन का मुफ्त परीक्षण शुरू करें",
   heroExplore: "विशेषताएं देखें",
-  dashboardUrl: "dashboard.herms.io",
+  dashboardUrl: "herms.app",
   dashboardActiveRentals: "सक्रिय किराये",
   dashboardFleetUtilization: "इस सप्ताह 85.7% बेड़ा उपयोग",
   dashboardRevenue: "राजस्व (जून)",

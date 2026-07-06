@@ -14,7 +14,7 @@ export const landingEn = {
     "Seamlessly manage your fleet, automate customer bookings, schedule maintenance, dispatch machinery, and collect payments in real-time.",
   heroStartTrial: "Start 15-Day Free Trial",
   heroExplore: "Explore Features",
-  dashboardUrl: "dashboard.herms.io",
+  dashboardUrl: "herms.app",
   dashboardActiveRentals: "Active Rentals",
   dashboardFleetUtilization: "85.7% fleet utilization this week",
   dashboardRevenue: "Revenue (June)",

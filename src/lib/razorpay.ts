@@ -1,4 +1,5 @@
 import { isNativeApp } from "@/lib/native";
+import { isSecurePageContext } from "@/lib/site-url";
 
 declare global {
   interface Window {
@@ -94,6 +95,12 @@ export async function openRazorpayCheckout(opts: {
   onDismiss?: () => void;
   onFailure?: (message: string) => void;
 }): Promise<void> {
+  if (!isSecurePageContext()) {
+    throw new Error(
+      "Payments require HTTPS. Open https://herms.app or use localhost for development.",
+    );
+  }
+
   await loadScript();
   if (!window.Razorpay) throw new Error("Razorpay unavailable");
 

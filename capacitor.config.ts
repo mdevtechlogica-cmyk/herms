@@ -34,6 +34,7 @@ function loadEnvValue(key: string): string | undefined {
 // Set in .env — local dev example: http://192.168.1.5:5173
 // Production example: https://your-herms-app.com
 const serverUrl = loadEnvValue("CAPACITOR_SERVER_URL");
+const isDevServer = Boolean(serverUrl?.startsWith("http://"));
 
 const config: CapacitorConfig = {
   appId: "com.herms.app",
@@ -50,7 +51,8 @@ const config: CapacitorConfig = {
       }
     : {}),
   android: {
-    allowMixedContent: true,
+    // Only allow mixed content when loading a local HTTP dev server.
+    allowMixedContent: isDevServer,
   },
 };
 
