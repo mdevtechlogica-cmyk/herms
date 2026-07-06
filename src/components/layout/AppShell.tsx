@@ -30,6 +30,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
+  SidebarRail,
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
@@ -146,7 +147,8 @@ function AppSidebar({
   navLabels: TranslationTree["nav"];
   signOutLabel: string;
 }) {
-  const { isMobile, setOpenMobile } = useSidebar();
+  const { isMobile, setOpenMobile, state } = useSidebar();
+  const collapsed = state === "collapsed";
   const prevPathname = useRef(pathname);
 
   useEffect(() => {
@@ -158,33 +160,48 @@ function AppSidebar({
 
   return (
     <>
-      <SidebarHeader className="shrink-0 border-b border-sidebar-border px-4 py-4">
-        <div className="flex items-center justify-between gap-2 pr-8">
-          <div className="flex items-center gap-2 min-w-0">
+      <SidebarHeader
+        className={cn(
+          "shrink-0 border-b border-sidebar-border",
+          collapsed && !isMobile ? "px-1.5 py-2" : "px-3 py-3",
+        )}
+      >
+        {collapsed && !isMobile ? (
+          <div className="flex w-full items-center justify-center">
+            <div
+              className="grid h-8 w-8 place-items-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground"
+              title="HERMS"
+            >
+              <Construction className="h-4 w-4" />
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2">
             <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
               <Construction className="h-5 w-5" />
             </div>
-            <div className="min-w-0">
+            <div className="min-w-0 flex-1">
               <div className="text-sm font-bold font-heading tracking-tight">HERMS</div>
               <div className="text-[10px] text-sidebar-foreground/60 uppercase tracking-wider truncate">
                 {roleLabel}
               </div>
             </div>
+            {isMobile ? (
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 shrink-0 text-sidebar-foreground hover:bg-sidebar-accent"
+                onClick={() => setOpenMobile(false)}
+                aria-label="Close menu"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            ) : (
+              <SidebarTrigger className="h-8 w-8 shrink-0 text-sidebar-foreground hover:bg-sidebar-accent" />
+            )}
           </div>
-          {isMobile && (
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="shrink-0 text-sidebar-foreground hover:bg-sidebar-accent"
-              onClick={() => setOpenMobile(false)}
-              aria-label="Close menu"
-            >
-              <X className="h-5 w-5" />
-              <span className="sr-only">Close</span>
-            </Button>
-          )}
-        </div>
+        )}
       </SidebarHeader>
       <SidebarContent className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 py-3">
         {groups.map((group) => (
@@ -198,7 +215,11 @@ function AppSidebar({
                   const active = pathname === it.to || pathname.startsWith(it.to + "/");
                   return (
                     <SidebarMenuItem key={it.to}>
-                      <SidebarMenuButton asChild isActive={active}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={active}
+                        tooltip={navLabels[it.navKey]}
+                      >
                         <Link to={it.to} onClick={() => isMobile && setOpenMobile(false)}>
                           <it.icon className="h-4 w-4" />
                           <span>{navLabels[it.navKey]}</span>
@@ -212,17 +233,34 @@ function AppSidebar({
           </SidebarGroup>
         ))}
       </SidebarContent>
-      <SidebarFooter className="shrink-0 border-t border-sidebar-border p-4">
-        <div className="text-sm font-medium truncate">{profile?.full_name || profile?.email}</div>
-        <div className="text-xs text-sidebar-foreground/60 truncate">{profile?.company_name || "—"}</div>
-        <ThemeToggle variant="sidebar" className="mt-3" />
+      <SidebarFooter
+        className={cn(
+          "shrink-0 border-t border-sidebar-border",
+          collapsed && !isMobile ? "p-1.5" : "p-2",
+        )}
+      >
+        <div className={cn("px-2", collapsed && !isMobile && "hidden")}>
+          <div className="text-sm font-medium truncate">{profile?.full_name || profile?.email}</div>
+          <div className="text-xs text-sidebar-foreground/60 truncate">{profile?.company_name || "—"}</div>
+        </div>
+        <ThemeToggle
+          variant={collapsed && !isMobile ? "menu" : "sidebar"}
+          className={cn(
+            collapsed && !isMobile ? "mx-auto h-8 w-8" : "mt-3",
+          )}
+        />
         <Button
           onClick={onSignOut}
           variant="ghost"
-          size="sm"
-          className="mt-2 w-full justify-start text-sidebar-foreground/80 hover:text-sidebar-primary-foreground hover:bg-sidebar-accent"
+          size={collapsed && !isMobile ? "icon" : "sm"}
+          title={collapsed && !isMobile ? signOutLabel : undefined}
+          className={cn(
+            "text-sidebar-foreground/80 hover:text-sidebar-primary-foreground hover:bg-sidebar-accent",
+            collapsed && !isMobile ? "mx-auto mt-1.5 h-8 w-8" : "mt-2 w-full justify-start",
+          )}
         >
-          <LogOut className="h-4 w-4 mr-2" /> {signOutLabel}
+          <LogOut className={cn("h-4 w-4", !collapsed || isMobile ? "mr-2" : "")} />
+          {(!collapsed || isMobile) && signOutLabel}
         </Button>
       </SidebarFooter>
     </>
@@ -231,19 +269,31 @@ function AppSidebar({
 
 function ShellHeader() {
   const isMobile = useIsMobile();
-  if (!isMobile) return null;
 
   return (
-    <header className="sticky top-0 z-40 shrink-0 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/90 pt-[env(safe-area-inset-top)]">
-      <div className="flex h-14 items-center gap-2 px-4">
-        <SidebarTrigger className="h-9 w-9" />
-        <div className="flex items-center gap-2 min-w-0 flex-1">
-          <div className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-primary text-primary-foreground">
-            <Construction className="h-4 w-4" />
-          </div>
-          <span className="font-bold font-heading truncate">HERMS</span>
-        </div>
-        <ThemeToggle variant="menu" />
+    <header
+      className={cn(
+        "sticky top-0 z-40 shrink-0 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/90",
+        isMobile ? "pt-[env(safe-area-inset-top)]" : "hidden md:block",
+      )}
+    >
+      <div className={cn("flex items-center gap-2 px-4", isMobile ? "h-14" : "h-12")}>
+        <SidebarTrigger className="h-9 w-9 shrink-0" />
+        {isMobile ? (
+          <>
+            <div className="flex items-center gap-2 min-w-0 flex-1">
+              <div className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-primary text-primary-foreground">
+                <Construction className="h-4 w-4" />
+              </div>
+              <span className="font-bold font-heading truncate">HERMS</span>
+            </div>
+            <ThemeToggle variant="menu" />
+          </>
+        ) : (
+          <span className="text-sm text-muted-foreground hidden lg:inline">
+            Ctrl+B to toggle menu
+          </span>
+        )}
       </div>
     </header>
   );
@@ -320,7 +370,8 @@ export function AppShell() {
 
   return (
     <SidebarProvider>
-      <Sidebar>
+      <Sidebar collapsible="icon">
+        <SidebarRail />
         <AppSidebar
           groups={navGroups}
           pathname={pathname}
