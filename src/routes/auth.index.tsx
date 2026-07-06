@@ -26,6 +26,7 @@ import { toast } from "sonner";
 import { useLocale } from "@/lib/locale-context";
 import { buildPageHead } from "@/lib/seo";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const AUTH_IMAGES = [
   {
@@ -86,7 +87,7 @@ function AuthPage() {
   }, [user, role, loading, completingAuth, nav]);
 
   return (
-    <div className="dark min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground">
       <div className="min-h-screen grid lg:grid-cols-2">
         {!isNativeApp && (
           <div className="hidden lg:flex relative overflow-hidden min-h-screen">
@@ -98,23 +99,23 @@ function AuthPage() {
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[oklch(0.16_0.015_265/0.95)] via-[oklch(0.18_0.015_265/0.82)] to-[oklch(0.18_0.015_265/0.45)]" />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[oklch(0.13_0.01_265/0.55)] to-transparent" />
 
-            <div className="relative z-10 flex flex-col justify-between p-10 xl:p-12 w-full min-h-screen">
+            <div className="relative z-10 flex flex-col justify-between p-10 xl:p-12 w-full min-h-screen text-white">
               <div className="flex items-center gap-3">
-                <div className="grid h-10 w-10 place-items-center rounded-lg bg-sidebar text-accent">
-                  <Construction className="h-5 w-5" />
+                <div className="grid h-10 w-10 place-items-center rounded-lg bg-white/15 ring-1 ring-white/25">
+                  <Construction className="h-5 w-5 text-accent" />
                 </div>
-                <span className="font-bold font-heading text-lg text-foreground">HERMS</span>
+                <span className="font-bold font-heading text-lg">HERMS</span>
               </div>
 
               <div className="space-y-5 max-w-lg">
                 <p className="text-xs font-bold text-accent uppercase tracking-widest">Heavy equipment rental OS</p>
-                <h1 className="text-4xl xl:text-5xl font-bold font-heading leading-tight text-foreground">
+                <h1 className="text-4xl xl:text-5xl font-bold font-heading leading-tight">
                   Enterprise rental management for{" "}
-                  <span className="bg-gradient-to-r from-foreground to-accent bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-white to-accent bg-clip-text text-transparent">
                     heavy equipment.
                   </span>
                 </h1>
-                <p className="text-foreground/80 text-lg leading-relaxed">
+                <p className="text-white/85 text-lg leading-relaxed">
                   Manage fleet, bookings, maintenance, and invoices — all in one place.
                 </p>
 
@@ -122,7 +123,7 @@ function AuthPage() {
                   {AUTH_IMAGES.map((photo) => (
                     <div
                       key={photo.src}
-                      className="relative aspect-[4/3] overflow-hidden rounded-lg border border-white/15 shadow-lg"
+                      className="relative aspect-[4/3] overflow-hidden rounded-lg border border-white/25 shadow-lg"
                     >
                       <img
                         src={photo.src}
@@ -130,8 +131,8 @@ function AuthPage() {
                         className="h-full w-full object-cover"
                         loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.13_0.01_265/0.85)] to-transparent" />
-                      <span className="absolute bottom-1.5 left-1.5 right-1.5 text-[9px] font-semibold text-foreground leading-tight">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                      <span className="absolute bottom-1.5 left-1.5 right-1.5 text-[9px] font-semibold text-white leading-tight">
                         {photo.label}
                       </span>
                     </div>
@@ -139,7 +140,7 @@ function AuthPage() {
                 </div>
               </div>
 
-              <p className="text-xs text-foreground/50">© {new Date().getFullYear()} HERMS</p>
+              <p className="text-xs text-white/50">© {new Date().getFullYear()} HERMS</p>
             </div>
           </div>
         )}
@@ -160,7 +161,7 @@ function AuthPage() {
                 asChild
                 variant="ghost"
                 size="sm"
-                className="text-foreground/75 hover:text-accent hover:bg-white/5 gap-1"
+                className="text-foreground/75 hover:text-accent hover:bg-muted gap-1"
               >
                 <Link to="/">
                   <ArrowLeft className="h-4 w-4" /> Back to Home
@@ -169,22 +170,26 @@ function AuthPage() {
             </div>
           )}
 
+          <div className="absolute top-2 right-4 sm:top-3 sm:right-6 lg:top-4 lg:right-8 z-20">
+            <ThemeToggle variant="menu" />
+          </div>
+
           <div className="relative z-10 w-full max-w-md mt-14 sm:mt-0">
             {!isNativeApp && (
-              <div className="lg:hidden mb-5 overflow-hidden rounded-xl border border-white/10 relative aspect-[21/9]">
+              <div className="lg:hidden mb-5 overflow-hidden rounded-xl border border-border relative aspect-[21/9] shadow-sm">
                 <img
                   src="/images/fleet-yard.jpg"
                   alt="Heavy equipment on a rental yard"
                   className="absolute inset-0 h-full w-full object-cover object-center"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-[oklch(0.16_0.015_265/0.9)] to-[oklch(0.18_0.015_265/0.5)]" />
-                <div className="relative z-10 flex items-center gap-2 p-4 h-full">
-                  <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-sidebar text-accent">
-                    <Construction className="h-4 w-4" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/75 to-black/35" />
+                <div className="relative z-10 flex items-center gap-2 p-4 h-full text-white">
+                  <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-white/15 ring-1 ring-white/25">
+                    <Construction className="h-4 w-4 text-accent" />
                   </div>
                   <div>
-                    <p className="font-bold font-heading text-sm text-foreground">HERMS</p>
-                    <p className="text-[11px] text-foreground/75">Heavy equipment rental management</p>
+                    <p className="font-bold font-heading text-sm">HERMS</p>
+                    <p className="text-[11px] text-white/80">Heavy equipment rental management</p>
                   </div>
                 </div>
               </div>
@@ -192,7 +197,7 @@ function AuthPage() {
 
             {isNativeApp && (
               <div className="mb-6 text-center">
-                <div className="mx-auto mb-3 grid h-12 w-12 place-items-center rounded-xl bg-sidebar text-accent">
+                <div className="mx-auto mb-3 grid h-12 w-12 place-items-center rounded-xl bg-primary text-primary-foreground">
                   <Construction className="h-6 w-6" />
                 </div>
                 <h1 className="text-xl font-bold font-heading text-foreground">{t.auth.appTitle}</h1>
@@ -200,7 +205,7 @@ function AuthPage() {
               </div>
             )}
 
-            <div className="rounded-2xl border border-white/10 bg-card/90 backdrop-blur-md p-6 sm:p-8 shadow-2xl shadow-black/20">
+            <div className="rounded-2xl border border-border bg-card p-6 sm:p-8 shadow-xl">
               <AuthForm mode={mode} onModeChange={setMode} onCompletingAuthChange={setCompletingAuth} />
             </div>
           </div>
@@ -226,7 +231,7 @@ function GoogleButton() {
       variant="outline"
       onClick={onClick}
       disabled={loading}
-      className="w-full border-white/15 bg-transparent text-foreground hover:bg-white/5 hover:text-foreground"
+      className="w-full"
     >
       <svg viewBox="0 0 24 24" className="h-4 w-4 mr-2" aria-hidden>
         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -382,7 +387,7 @@ function AuthForm({
 
       <div className="relative my-2">
         <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t border-white/10" />
+          <span className="w-full border-t border-border" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
           <span className="bg-card px-2 text-foreground/55">or</span>
@@ -397,7 +402,7 @@ function AuthForm({
             autoComplete="name"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            className="border-white/15 bg-background/50"
+            className="bg-background"
           />
           {errors.full_name && <p className="text-xs text-destructive">{errors.full_name}</p>}
         </div>
@@ -411,7 +416,7 @@ function AuthForm({
           autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border-white/15 bg-background/50"
+          className="bg-background"
         />
         {errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
       </div>
@@ -423,7 +428,7 @@ function AuthForm({
           autoComplete={isSignUp ? "new-password" : "current-password"}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border-white/15 bg-background/50"
+          className="bg-background"
         />
         {errors.password && <p className="text-xs text-destructive">{errors.password}</p>}
       </div>

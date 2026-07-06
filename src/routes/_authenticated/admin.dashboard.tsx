@@ -27,7 +27,7 @@ export const Route = createFileRoute("/_authenticated/admin/dashboard")({
 
 const CHART_COLORS = {
   bar: "oklch(0.74 0.16 65)",
-  grid: "hsl(var(--border) / 0.5)",
+  grid: "var(--border)",
 };
 const PIE_COLORS = ["#10b981", "#3b82f6", "#f59e0b", "#ef4444"];
 
@@ -53,7 +53,7 @@ function DashboardStat({
   return (
     <div
       className={cn(
-        "group relative overflow-hidden rounded-2xl border border-l-[3px] bg-card p-4 shadow-sm transition-all hover:shadow-lg hover:-translate-y-0.5",
+        "group relative overflow-hidden rounded-2xl border border-border border-l-[3px] bg-card p-4 shadow-sm transition-all hover:shadow-lg hover:-translate-y-0.5",
         BORDER_ACCENTS[accent],
       )}
     >
@@ -137,10 +137,10 @@ function AdminDashboard() {
       {/* Hero */}
       <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary via-primary to-[oklch(0.45_0.12_65)] text-primary-foreground shadow-lg">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(255,255,255,0.12),_transparent_55%)]" />
-        <div className="absolute -bottom-8 -right-8 h-40 w-40 rounded-full bg-white/5 blur-2xl" />
+        <div className="absolute -bottom-8 -right-8 h-40 w-40 rounded-full bg-primary-foreground/10 blur-2xl" />
         <div className="relative p-5 sm:p-6 space-y-4">
           <div className="flex items-start gap-3">
-            <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-white/15 backdrop-blur-sm ring-1 ring-white/20">
+            <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-primary-foreground/15 backdrop-blur-sm ring-1 ring-primary-foreground/25">
               <Construction className="h-6 w-6" />
             </div>
             <div className="min-w-0 flex-1">
@@ -155,7 +155,7 @@ function AdminDashboard() {
               )}
             </div>
             {!dataLoading && (
-              <div className="hidden sm:flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-xs font-medium ring-1 ring-white/20">
+              <div className="hidden sm:flex items-center gap-1.5 rounded-full bg-primary-foreground/15 px-3 py-1.5 text-xs font-medium ring-1 ring-primary-foreground/25">
                 <TrendingUp className="h-3.5 w-3.5" />
                 {utilization}% {t.dashboard.fleetReady}
               </div>
@@ -166,7 +166,7 @@ function AdminDashboard() {
             <Button
               asChild
               size="lg"
-              className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 font-semibold shadow-md"
+              className="w-full sm:w-auto bg-primary-foreground text-primary hover:bg-primary-foreground/90 font-semibold shadow-md"
             >
               <Link to="/admin/book-now">
                 <Plus className="h-5 w-5 mr-2" />
@@ -177,7 +177,7 @@ function AdminDashboard() {
               asChild
               size="lg"
               variant="outline"
-              className="w-full sm:w-auto border-white/40 bg-white/10 text-primary-foreground hover:bg-white/20 font-semibold"
+              className="w-full sm:w-auto border-primary-foreground/40 bg-primary-foreground/10 text-primary-foreground hover:bg-primary-foreground/20 font-semibold"
             >
               <Link to="/admin/collect-equipment">
                 <PackageCheck className="h-5 w-5 mr-2" />
@@ -207,7 +207,7 @@ function AdminDashboard() {
 
       {/* Charts */}
       <div className="grid gap-4 lg:grid-cols-5">
-        <div className="rounded-2xl border bg-card p-5 shadow-sm lg:col-span-3">
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-sm lg:col-span-3">
           <div className="flex items-center justify-between mb-5">
             <div>
               <h3 className="font-semibold text-foreground">{t.dashboard.monthlyRevenue}</h3>
@@ -220,7 +220,7 @@ function AdminDashboard() {
           <div className="h-56 sm:h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={monthly} barCategoryGap="20%">
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={CHART_COLORS.grid} />
                 <XAxis dataKey="month" tickLine={false} axisLine={false} tick={{ fontSize: 12 }} />
                 <YAxis
                   tickLine={false}
@@ -229,11 +229,13 @@ function AdminDashboard() {
                   tickFormatter={(v) => (v >= 1000 ? `${Math.round(v / 1000)}k` : String(v))}
                 />
                 <Tooltip
-                  cursor={{ fill: "hsl(var(--muted) / 0.4)" }}
+                  cursor={{ fill: "color-mix(in oklch, var(--muted) 40%, transparent)" }}
                   formatter={(v: number) => [formatMoney(v), t.dashboard.revenue]}
                   contentStyle={{
                     borderRadius: "12px",
-                    border: "1px solid hsl(var(--border))",
+                    border: "1px solid var(--border)",
+                    background: "var(--card)",
+                    color: "var(--foreground)",
                     fontSize: "12px",
                   }}
                 />
@@ -243,7 +245,7 @@ function AdminDashboard() {
           </div>
         </div>
 
-        <div className="rounded-2xl border bg-card p-5 shadow-sm lg:col-span-2">
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-sm lg:col-span-2">
           <div className="mb-4">
             <h3 className="font-semibold text-foreground">{t.dashboard.equipmentStatus}</h3>
             <p className="text-xs text-muted-foreground mt-0.5">{totalEq} {t.dashboard.unitsTotal}</p>
@@ -265,7 +267,9 @@ function AdminDashboard() {
                 <Tooltip
                   contentStyle={{
                     borderRadius: "12px",
-                    border: "1px solid hsl(var(--border))",
+                    border: "1px solid var(--border)",
+                    background: "var(--card)",
+                    color: "var(--foreground)",
                     fontSize: "12px",
                   }}
                 />

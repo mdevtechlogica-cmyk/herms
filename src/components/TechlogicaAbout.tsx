@@ -103,7 +103,7 @@ export function TechlogicaAbout({ variant = "page", className }: TechlogicaAbout
           </div>
           <div className="flex-1 max-w-3xl">{officeGrid}</div>
         </div>
-        <div className="pt-6 border-t border-white/10 text-xs text-foreground/55 text-center sm:text-left">
+        <div className="pt-6 border-t border-border text-xs text-muted-foreground text-center sm:text-left">
           {labels.developedBy}{" "}
           <a
             href={TECHLOGICA_WEBSITE}
@@ -125,7 +125,7 @@ export function TechlogicaAbout({ variant = "page", className }: TechlogicaAbout
           href={TECHLOGICA_WEBSITE}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block shrink-0 rounded-lg bg-black/90 p-3"
+          className="inline-block shrink-0 rounded-lg bg-muted p-3 dark:bg-black/90"
         >
           <img src={TECHLOGICA_LOGO} alt="Techlogica" className="h-10 w-auto" />
         </a>

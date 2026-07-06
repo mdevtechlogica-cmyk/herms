@@ -11,6 +11,7 @@ import { FirebaseWebProvider } from "@/lib/firebase-web-context";
 import { LocaleProvider } from "@/lib/locale-context";
 import { PlanProvider } from "@/lib/plan-context";
 import { WorkspaceProvider } from "@/lib/workspace-context";
+import { ThemeProvider, THEME_INIT_SCRIPT, useTheme } from "@/lib/theme-context";
 import { configureNativeViewport } from "@/lib/native";
 import { seedOAuthOrigin } from "@/lib/google-auth";
 import { initNativeOAuthListener } from "@/lib/oauth-native";
@@ -107,9 +108,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
       <body>
         {children}
@@ -117,6 +119,11 @@ function RootShell({ children }: { children: ReactNode }) {
       </body>
     </html>
   );
+}
+
+function ThemedToaster() {
+  const { resolvedTheme } = useTheme();
+  return <Toaster richColors theme={resolvedTheme} position="top-right" closeButton />;
 }
 
 function RootComponent() {
@@ -141,6 +148,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
       <AuthProvider>
         <FirebaseWebProvider>
         <PushNotificationProvider>
@@ -150,13 +158,14 @@ function RootComponent() {
             {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
             <Outlet />
             <BackExitHandler />
-            <Toaster richColors position="top-right" closeButton />
+            <ThemedToaster />
           </WorkspaceProvider>
           </PlanProvider>
         </LocaleProvider>
         </PushNotificationProvider>
         </FirebaseWebProvider>
       </AuthProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

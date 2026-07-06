@@ -28,15 +28,15 @@ export function WorkspaceSelector({ className, variant = "default" }: WorkspaceS
   return (
     <div className={cn(
       embedded
-        ? "rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 p-3 sm:p-4"
-        : "rounded-xl border bg-card shadow-sm p-4",
+        ? "rounded-xl bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/20 p-3 sm:p-4"
+        : "rounded-xl border border-border bg-card shadow-sm p-4",
       className,
     )}>
       <div className="grid gap-3 sm:grid-cols-2">
         <div className="space-y-1.5">
           <Label className={cn(
             "text-xs flex items-center gap-1.5",
-            embedded ? "text-primary-foreground/80" : "text-muted-foreground",
+            embedded ? "text-primary-foreground/85" : "text-muted-foreground",
           )}>
             <Globe className="h-3.5 w-3.5" />
             {t.dashboard.country}
@@ -46,7 +46,7 @@ export function WorkspaceSelector({ className, variant = "default" }: WorkspaceS
             onValueChange={(v) => setCountry(v as CountryCode)}
             disabled={loading}
           >
-            <SelectTrigger className={embedded ? "bg-white/95 border-white/30 text-foreground" : undefined}>
+            <SelectTrigger className={embedded ? "bg-background border-border text-foreground" : undefined}>
               <SelectValue placeholder={t.dashboard.selectCountry} />
             </SelectTrigger>
             <SelectContent>
@@ -60,7 +60,7 @@ export function WorkspaceSelector({ className, variant = "default" }: WorkspaceS
         <div className="space-y-1.5">
           <Label className={cn(
             "text-xs flex items-center gap-1.5",
-            embedded ? "text-primary-foreground/80" : "text-muted-foreground",
+            embedded ? "text-primary-foreground/85" : "text-muted-foreground",
           )}>
             <Building2 className="h-3.5 w-3.5" />
             {t.dashboard.branch}
@@ -73,7 +73,7 @@ export function WorkspaceSelector({ className, variant = "default" }: WorkspaceS
             }}
             disabled={loading || branchesInCountry.length === 0}
           >
-            <SelectTrigger className={embedded ? "bg-white/95 border-white/30 text-foreground" : undefined}>
+            <SelectTrigger className={embedded ? "bg-background border-border text-foreground" : undefined}>
               <SelectValue placeholder={t.dashboard.selectBranch} />
             </SelectTrigger>
             <SelectContent>

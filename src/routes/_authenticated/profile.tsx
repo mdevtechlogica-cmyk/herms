@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { useLocale } from "@/lib/locale-context";
 import { useWorkspace } from "@/lib/workspace-context";
@@ -7,10 +7,13 @@ import {
   COUNTRY_LIST,
   COUNTRIES,
   LANGUAGE_LABELS,
+  isCountryCode,
+  normalizeLanguageCode,
   resolveLanguageForCountry,
   type CountryCode,
   type LanguageCode,
 } from "@/lib/locale/countries";
+import { writeLocalePrefs } from "@/lib/locale/locale-store";
 import { PageHeader } from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,6 +28,7 @@ import {
 } from "@/lib/contact-validators";
 import { PhoneInput } from "@/components/PhoneInput";
 import { TechlogicaAbout } from "@/components/TechlogicaAbout";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { db, supabase } from "@/lib/db";
 
 export const Route = createFileRoute("/_authenticated/profile")({
@@ -32,9 +36,10 @@ export const Route = createFileRoute("/_authenticated/profile")({
 });
 
 function ProfilePage() {
-  const { profile } = useAuth();
-  const { country, language, t, taxIdLabel, saving, savePreferences, setLanguage, setCountry } = useLocale();
+  const { profile, patchProfile } = useAuth();
+  const { t } = useLocale();
   const { setCountry: setWorkspaceCountry } = useWorkspace();
+  const hydratedProfileId = useRef<string | null>(null);
   const [form, setForm] = useState({
     full_name: "",
     company_name: "",
@@ -50,34 +55,33 @@ function ProfilePage() {
   const [savingProfile, setSavingProfile] = useState(false);
 
   useEffect(() => {
-    if (!profile) return;
-    const parsed = parseStoredPhone(profile.phone || "", country);
-    setForm((prev) => ({
-      ...prev,
+    if (!profile) {
+      hydratedProfileId.current = null;
+      return;
+    }
+    if (hydratedProfileId.current === profile.id) return;
+    hydratedProfileId.current = profile.id;
+
+    const profileCountry =
+      profile.country_code && isCountryCode(profile.country_code) ? profile.country_code : "IN";
+    const profileLanguage =
+      normalizeLanguageCode(profile.preferred_language)
+      ?? COUNTRIES[profileCountry].defaultLanguage;
+    const parsed = parseStoredPhone(profile.phone || "", profileCountry);
+
+    setForm({
       full_name: profile.full_name || "",
       company_name: profile.company_name || "",
       phone_country: parsed.countryCode,
       phone: parsed.national,
       address: profile.address || "",
       gst_number: profile.gst_number || "",
-    }));
-  }, [
-    profile?.id,
-    profile?.full_name,
-    profile?.company_name,
-    profile?.phone,
-    profile?.address,
-    profile?.gst_number,
-    country,
-  ]);
+      country_code: profileCountry,
+      preferred_language: profileLanguage,
+    });
+  }, [profile]);
 
-  useEffect(() => {
-    setForm((prev) => ({
-      ...prev,
-      country_code: country,
-      preferred_language: language,
-    }));
-  }, [country, language]);
+  const taxIdLabel = COUNTRIES[form.country_code].taxIdLabel;
 
   const availableLanguages = COUNTRIES[form.country_code].languages.includes(form.preferred_language)
     ? COUNTRIES[form.country_code].languages
@@ -102,16 +106,27 @@ function ProfilePage() {
 
     setSavingProfile(true);
     try {
-      const { error } = await db.from("profiles").update({
-        full_name: form.full_name,
-        company_name: form.company_name,
+      const { data, error } = await db.from("profiles").update({
+        full_name: form.full_name.trim(),
+        company_name: form.company_name.trim() || null,
         phone: phoneStored || null,
-        address: form.address,
-        gst_number: form.gst_number,
-      }).eq("id", profile.id);
-      if (error) throw error;
+        address: form.address.trim() || null,
+        gst_number: form.gst_number.trim() || null,
+        country_code: form.country_code,
+        preferred_language: form.preferred_language,
+      }).eq("id", profile.id).select().maybeSingle();
 
-      await savePreferences(form.country_code, form.preferred_language);
+      if (error) throw error;
+      if (!data) {
+        throw new Error("Profile could not be updated. Please sign in again.");
+      }
+
+      writeLocalePrefs({
+        country: form.country_code,
+        language: form.preferred_language,
+        userSet: true,
+      });
+      patchProfile(data);
       setWorkspaceCountry(form.country_code);
       toast.success(t.profile.updated);
     } catch (err) {
@@ -168,7 +183,6 @@ function ProfilePage() {
                   country_code: code,
                   preferred_language: nextLang,
                 }));
-                setCountry(code);
               }}
             >
               <SelectTrigger><SelectValue /></SelectTrigger>
@@ -186,7 +200,6 @@ function ProfilePage() {
               onValueChange={(v) => {
                 const lang = v as LanguageCode;
                 setForm((prev) => ({ ...prev, preferred_language: lang }));
-                setLanguage(lang);
               }}
             >
               <SelectTrigger><SelectValue placeholder={t.profile.language} /></SelectTrigger>
@@ -198,15 +211,24 @@ function ProfilePage() {
             </Select>
           </div>
 
-          <Button type="submit" disabled={savingProfile || saving}>
-            {savingProfile || saving ? t.common.saving : t.common.save}
+          <Button type="submit" disabled={savingProfile}>
+            {savingProfile ? t.common.saving : t.common.save}
           </Button>
         </form>
         <div className="rounded-xl border bg-card p-6 space-y-4">
-          <h2 className="font-semibold">{t.profile.changePassword}</h2>
-          <div><Label>{t.profile.newPassword}</Label><Input type="password" value={pw} onChange={(e) => setPw(e.target.value)} /></div>
-          <Button onClick={changePw} variant="outline">{t.profile.updatePassword}</Button>
-          <div className="pt-6 border-t mt-6">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h2 className="font-semibold">{t.profile.appearance}</h2>
+              <p className="text-sm text-muted-foreground mt-1">{t.profile.appearanceDescription}</p>
+            </div>
+            <ThemeToggle variant="menu" />
+          </div>
+          <div className="pt-6 border-t">
+            <h2 className="font-semibold">{t.profile.changePassword}</h2>
+            <div className="mt-4"><Label>{t.profile.newPassword}</Label><Input type="password" value={pw} onChange={(e) => setPw(e.target.value)} /></div>
+            <Button onClick={changePw} variant="outline" className="mt-4">{t.profile.updatePassword}</Button>
+          </div>
+          <div className="pt-6 border-t">
             <div className="text-xs text-muted-foreground">{t.profile.email}</div>
             <div className="font-medium">{profile?.email}</div>
           </div>

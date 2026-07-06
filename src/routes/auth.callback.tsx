@@ -80,7 +80,7 @@ function AuthCallbackPage() {
   }, []);
 
   return (
-    <div className="dark min-h-screen grid place-items-center bg-background text-foreground/75 text-sm">
+    <div className="min-h-screen grid place-items-center bg-background text-foreground/75 text-sm">
       {message}
     </div>
   );

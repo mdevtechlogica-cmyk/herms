@@ -14,6 +14,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { TechlogicaAbout } from "@/components/TechlogicaAbout";
 import { SeoJsonLd } from "@/components/SeoJsonLd";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { buildPageHead, landingJsonLd } from "@/lib/seo";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -141,7 +142,7 @@ function Index() {
     return (
       <div className="min-h-screen grid place-items-center bg-background px-6">
         <div className="text-center space-y-4 max-w-sm">
-          <div className="grid h-12 w-12 place-items-center rounded-lg bg-sidebar text-accent mx-auto">
+          <div className="grid h-12 w-12 place-items-center rounded-lg bg-primary text-primary-foreground mx-auto">
             <Construction className="h-6 w-6 animate-bounce" />
           </div>
           <p className="text-muted-foreground text-sm font-medium">Verifying session...</p>
@@ -161,13 +162,13 @@ function Index() {
   }
 
   return (
-    <div className="dark min-h-screen bg-background text-foreground selection:bg-accent/30 selection:text-foreground">
+    <div className="min-h-screen bg-background text-foreground selection:bg-accent/30 selection:text-foreground">
       <SeoJsonLd data={landingJsonLd()} />
       {/* Navigation Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-background/85 backdrop-blur-md">
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-            <div className="grid h-10 w-10 place-items-center rounded-lg bg-sidebar text-accent">
+            <div className="grid h-10 w-10 place-items-center rounded-lg bg-primary text-primary-foreground">
               <Construction className="h-5 w-5" />
             </div>
             <span className="font-bold font-heading text-xl tracking-tight text-foreground">HERMS</span>
@@ -190,7 +191,7 @@ function Index() {
                 <span>{LANGUAGE_LABELS[language]}</span>
                 <ChevronDown className="h-3 w-3" />
               </button>
-              <div className="absolute right-0 mt-1 w-44 bg-card border border-white/10 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 max-h-72 overflow-y-auto">
+              <div className="absolute right-0 mt-1 w-44 bg-card border border-border rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 max-h-72 overflow-y-auto">
                 <div className="py-1">
                   {languageOptions.map((code) => (
                     <button
@@ -212,7 +213,7 @@ function Index() {
                 <span>{COUNTRIES[country].name}</span>
                 <ChevronDown className="h-3 w-3" />
               </button>
-              <div className="absolute right-0 mt-1 w-48 bg-card border border-white/10 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 max-h-64 overflow-y-auto">
+              <div className="absolute right-0 mt-1 w-48 bg-card border border-border rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 max-h-64 overflow-y-auto">
                 <div className="py-1">
                   {COUNTRY_LIST.map((c) => (
                     <button 
@@ -230,6 +231,7 @@ function Index() {
 
           {/* Action Buttons */}
           <div className="hidden md:flex items-center gap-3">
+            <ThemeToggle variant="menu" />
             <Button asChild variant="ghost" size="sm" className="text-foreground hover:text-accent">
               <Link to="/auth">{t.navSignIn}</Link>
             </Button>
@@ -239,17 +241,20 @@ function Index() {
           </div>
 
           {/* Mobile Menu Button */}
-          <button
+          <div className="md:hidden flex items-center gap-1">
+            <ThemeToggle variant="menu" />
+            <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-md text-foreground/75 hover:text-accent hover:bg-muted focus:outline-none"
+            className="p-2 rounded-md text-foreground/75 hover:text-accent hover:bg-muted focus:outline-none"
           >
             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
+          </div>
         </div>
 
         {/* Mobile Navigation Dropdown */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-b border-white/10 bg-background px-4 pt-2 pb-6 space-y-4">
+          <div className="md:hidden border-b border-border bg-background px-4 pt-2 pb-6 space-y-4">
             <div className="flex flex-col gap-3 font-medium text-foreground/75">
               <button onClick={() => scrollToSection("features")} className="text-left py-2 hover:text-accent transition-colors">{t.navFeatures}</button>
               <button onClick={() => scrollToSection("pricing")} className="text-left py-2 hover:text-accent transition-colors">{t.navPricing}</button>
@@ -258,7 +263,7 @@ function Index() {
             </div>
             
             {/* Mobile Language & Region Selectors */}
-            <div className="border-t border-white/10 pt-4 space-y-3">
+            <div className="border-t border-border/60 pt-4 space-y-3">
               <div className="space-y-2">
                 <label className="text-xs font-semibold text-foreground/70 uppercase tracking-wider">{t.languageLabel}</label>
                 <LanguageSelect
@@ -274,7 +279,7 @@ function Index() {
                 <select 
                   value={country}
                   onChange={(e) => setCountry(e.target.value as CountryCode)}
-                  className="w-full px-3 py-2 rounded-md text-xs font-medium bg-muted text-foreground border border-white/10 focus:outline-none focus:ring-2 focus:ring-accent"
+                  className="w-full px-3 py-2 rounded-md text-xs font-medium bg-muted text-foreground border border-border focus:outline-none focus:ring-2 focus:ring-accent"
                 >
                   {COUNTRY_LIST.map((c) => (
                     <option key={c.code} value={c.code}>
@@ -285,8 +290,8 @@ function Index() {
               </div>
             </div>
             
-            <div className="border-t border-white/10 pt-4 flex flex-col gap-2">
-              <Button asChild variant="outline" className="w-full justify-center border-white/15">
+            <div className="border-t border-border pt-4 flex flex-col gap-2">
+              <Button asChild variant="outline" className="w-full justify-center">
                 <Link to="/auth">{t.navSignIn}</Link>
               </Button>
               <Button asChild className="w-full justify-center bg-accent text-accent-foreground font-semibold">
@@ -313,13 +318,13 @@ function Index() {
           />
         </div>
 
-        {/* Overlay: graphite left (headline), fade right so amber sunset + machinery show through */}
+        {/* Overlay: light theme uses soft background wash; dark keeps cinematic graphite */}
         <div
-          className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-r from-[oklch(0.16_0.015_265/0.92)] via-[oklch(0.18_0.015_265/0.78)] to-[oklch(0.18_0.015_265/0.55)] md:from-[oklch(0.16_0.015_265/0.95)] md:via-[oklch(0.18_0.015_265/0.72)] md:to-[oklch(0.18_0.015_265/0.15)]"
+          className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-r from-background/95 via-background/80 to-background/50 md:from-background/92 md:via-background/70 md:to-background/25 dark:from-[oklch(0.16_0.015_265/0.92)] dark:via-[oklch(0.18_0.015_265/0.78)] dark:to-[oklch(0.18_0.015_265/0.55)] md:dark:from-[oklch(0.16_0.015_265/0.95)] md:dark:via-[oklch(0.18_0.015_265/0.72)] md:dark:to-[oklch(0.18_0.015_265/0.15)]"
           aria-hidden
         />
         <div
-          className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-[oklch(0.13_0.01_265/0.55)] via-[oklch(0.13_0.01_265/0.15)] to-transparent md:from-[oklch(0.13_0.01_265/0.45)] md:via-transparent"
+          className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-background/60 via-background/20 to-transparent md:from-background/50 md:via-transparent dark:from-[oklch(0.13_0.01_265/0.55)] dark:via-[oklch(0.13_0.01_265/0.15)] md:dark:from-[oklch(0.13_0.01_265/0.45)]"
           aria-hidden
         />
 
@@ -329,7 +334,7 @@ function Index() {
             heroEntered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
           )}
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/20 bg-white/10 text-foreground text-xs font-semibold tracking-wide uppercase">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-background/95 shadow-sm dark:border-white/20 dark:bg-white/10 text-foreground text-xs font-semibold tracking-wide uppercase">
             <Badge variant="outline" className="bg-accent/20 text-accent border-none text-[10px] px-2 py-0">{t.heroBadge}</Badge>
             {t.heroBadgeText}
           </div>
@@ -352,7 +357,7 @@ function Index() {
                 {t.heroStartTrial} <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button onClick={() => scrollToSection("features")} variant="outline" size="lg" className="w-full sm:w-auto h-12 px-8 text-base font-medium border-white/35 text-foreground bg-transparent hover:bg-white/10 hover:text-foreground transition-all">
+            <Button onClick={() => scrollToSection("features")} variant="outline" size="lg" className="w-full sm:w-auto h-12 px-8 text-base font-medium border-border bg-background/80 hover:bg-muted dark:border-white/35 dark:bg-transparent dark:hover:bg-white/10 transition-all">
               {t.heroExplore}
             </Button>
           </div>
@@ -360,9 +365,9 @@ function Index() {
       </section>
 
       {/* Stats Row */}
-      <section ref={statsRef} className="border-y border-white/10 bg-muted/40 py-8">
+      <section ref={statsRef} className="border-y border-border bg-muted/40 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:divide-x md:divide-white/10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:divide-x md:divide-border">
             <div className="space-y-1">
               <div className="text-3xl font-extrabold font-heading font-mono text-accent">{statUptime.toFixed(1)}%</div>
               <p className="text-sm text-foreground/70 font-medium">{t.stat1Label}</p>
@@ -413,7 +418,7 @@ function Index() {
             ].map((photo) => (
               <figure
                 key={photo.src}
-                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-card shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+                className="group relative overflow-hidden rounded-2xl border border-border bg-card shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <img
@@ -423,9 +428,9 @@ function Index() {
                     loading="lazy"
                   />
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[oklch(0.13_0.01_265/0.92)] via-[oklch(0.16_0.015_265/0.35)] to-transparent" />
-                  <figcaption className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
-                    <h3 className="font-bold font-heading text-foreground text-lg">{photo.title}</h3>
-                    <p className="text-sm text-foreground/75 mt-1">{photo.caption}</p>
+                  <figcaption className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 text-white">
+                    <h3 className="font-bold font-heading text-lg">{photo.title}</h3>
+                    <p className="text-sm text-white/80 mt-1">{photo.caption}</p>
                   </figcaption>
                 </div>
               </figure>
@@ -482,7 +487,7 @@ function Index() {
             <div
               key={idx}
               className={cn(
-                "fade-up group relative bg-card p-6 rounded-xl border border-white/10 hover:border-accent/30 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between",
+                "fade-up group relative bg-card p-6 rounded-xl border border-border shadow-sm hover:border-accent/40 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between",
                 featuresInView && "visible",
               )}
               style={{ transitionDelay: `${idx * 100}ms` }}
@@ -500,7 +505,7 @@ function Index() {
       </section>
 
       {/* Capacitor Mobile Showcase Section */}
-      <section id="mobile" className="relative py-20 border-y border-white/10 overflow-hidden">
+      <section id="mobile" className="relative py-20 border-y border-border overflow-hidden">
         <img
           src="/images/fleet-night.jpg"
           alt="Komatsu excavator with work lights on at night"
@@ -539,7 +544,7 @@ function Index() {
           </div>
 
           <div className="relative justify-self-center w-full max-w-[300px]">
-            <div className="hidden sm:block absolute -left-8 -top-6 w-40 h-28 rounded-xl overflow-hidden border border-white/10 shadow-xl rotate-[-6deg] opacity-90">
+            <div className="hidden sm:block absolute -left-8 -top-6 w-40 h-28 rounded-xl overflow-hidden border border-border shadow-xl rotate-[-6deg] opacity-90">
               <img
                 src="/images/fleet-yard.jpg"
                 alt="Excavator on a rental yard"
@@ -549,40 +554,40 @@ function Index() {
             </div>
 
           {/* Pure HTML CSS Mockup Mobile Phone */}
-          <div className="relative justify-self-center w-[300px] h-[600px] rounded-[40px] border-[12px] border-white/15 bg-card shadow-2xl overflow-hidden flex flex-col mx-auto">
+          <div className="relative justify-self-center w-[300px] h-[600px] rounded-[40px] border-[12px] border-border bg-card shadow-2xl overflow-hidden flex flex-col mx-auto">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-background rounded-b-2xl z-20 flex items-center justify-center">
-              <div className="w-12 h-1 bg-white/20 rounded-full" />
+              <div className="w-12 h-1 bg-muted-foreground/30 rounded-full" />
             </div>
 
             {/* Mobile Content */}
             <div className="flex-1 flex flex-col pt-8 bg-muted/40">
-              <div className="px-4 py-3 flex items-center justify-between border-b border-white/10 bg-card">
+              <div className="px-4 py-3 flex items-center justify-between border-b border-border bg-card">
                 <span className="font-bold text-xs text-foreground">{t.mobileFieldApp}</span>
                 <span className="px-1.5 py-0.5 bg-success/15 text-success rounded text-[9px] font-semibold">{t.mobileOnline}</span>
               </div>
 
               <div className="flex-1 p-4 overflow-y-auto space-y-4">
-                <div className="bg-card rounded-lg border border-white/10 p-3 space-y-2">
+                <div className="bg-card rounded-lg border border-border p-3 space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-[10px] text-foreground/70">{t.mobileBranch}</span>
+                    <span className="text-[10px] text-muted-foreground">{t.mobileBranch}</span>
                     <span className="text-[10px] font-bold text-accent">{t.mobileDispatch}</span>
                   </div>
                   <h4 className="font-bold text-xs text-foreground">{t.mobileCheckoutTitle}</h4>
-                  <p className="text-[10px] text-foreground/70">{t.mobileJobsite}</p>
-                  <div className="space-y-1.5 pt-2 border-t border-white/10">
+                  <p className="text-[10px] text-muted-foreground">{t.mobileJobsite}</p>
+                  <div className="space-y-1.5 pt-2 border-t border-border">
                     {[t.mobileCheck1, t.mobileCheck2, t.mobileCheck3].map((label, idx) => (
                       <label key={idx} className="flex items-center gap-2 text-[10px]">
-                        <input type="checkbox" defaultChecked={idx < 2} className="rounded border-white/20 text-accent focus:ring-accent h-3.5 w-3.5" />
+                        <input type="checkbox" defaultChecked={idx < 2} className="rounded border-border text-accent focus:ring-accent h-3.5 w-3.5" />
                         <span className="text-foreground">{label}</span>
                       </label>
                     ))}
                   </div>
                 </div>
 
-                <div className="bg-card rounded-lg border border-white/10 p-3 space-y-2">
+                <div className="bg-card rounded-lg border border-border p-3 space-y-2">
                   <h4 className="font-bold text-xs text-foreground">{t.mobileSignTitle}</h4>
-                  <div className="h-20 rounded bg-muted/50 border border-dashed border-white/15 flex items-center justify-center relative overflow-hidden">
-                    <span className="text-[10px] text-foreground/50 select-none">{t.mobileSignPlaceholder}</span>
+                  <div className="h-20 rounded bg-muted/50 border border-dashed border-border flex items-center justify-center relative overflow-hidden">
+                    <span className="text-[10px] text-muted-foreground select-none">{t.mobileSignPlaceholder}</span>
                     <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 200 80">
                       <path d="M 30,50 Q 60,20 100,55 T 170,40" fill="none" stroke="currentColor" strokeWidth="2" className="text-accent/70" />
                     </svg>
@@ -613,7 +618,7 @@ function Index() {
         {/* Pricing Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
           {/* Basic Plan */}
-          <div className="rounded-2xl border border-white/10 bg-card p-6 flex flex-col justify-between hover:border-accent/30 transition-all duration-300 shadow-sm">
+          <div className="rounded-2xl border border-border bg-card p-6 flex flex-col justify-between hover:border-accent/40 transition-all duration-300 shadow-sm">
             <div className="space-y-6">
               <div>
                 <h3 className="text-lg font-bold text-foreground">{t.pricingBasic}</h3>
@@ -666,7 +671,7 @@ function Index() {
           </div>
 
           {/* Premium Plan */}
-          <div className="rounded-2xl border border-white/10 bg-card p-6 flex flex-col justify-between hover:border-accent/30 transition-all duration-300 shadow-sm">
+          <div className="rounded-2xl border border-border bg-card p-6 flex flex-col justify-between hover:border-accent/40 transition-all duration-300 shadow-sm">
             <div className="space-y-6">
               <div>
                 <h3 className="text-lg font-bold text-foreground">{t.pricingPremium}</h3>
@@ -693,14 +698,14 @@ function Index() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-20 md:py-28 bg-muted/30 border-y border-white/10">
+      <section id="faq" className="py-20 md:py-28 bg-muted/30 border-y border-border">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center space-y-4">
             <h2 className="text-xs font-bold text-accent uppercase tracking-widest">{t.faqBadge}</h2>
             <p className="text-3xl font-extrabold font-heading text-foreground tracking-tight">{t.faqTitle}</p>
           </div>
 
-          <Accordion type="single" collapsible className="w-full bg-card rounded-xl border border-white/10 p-6 divide-y divide-white/10">
+          <Accordion type="single" collapsible className="w-full bg-card rounded-xl border border-border shadow-sm p-6 divide-y divide-border">
             {[
               { value: "item-1", question: t.faq1Question, answer: t.faq1Answer },
               { value: "item-2", question: t.faq2Question, answer: t.faq2Answer },
@@ -723,15 +728,15 @@ function Index() {
 
       {/* CTA Banner Section */}
       <section className="py-20 md:py-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="relative rounded-3xl p-8 sm:p-12 md:p-16 overflow-hidden shadow-2xl text-foreground border border-white/10">
+        <div className="relative rounded-3xl p-8 sm:p-12 md:p-16 overflow-hidden shadow-xl text-foreground border border-border bg-card">
           <img
             src="/images/fleet-yard.jpg"
             alt="Excavator on a gravel rental yard"
-            className="absolute inset-0 h-full w-full object-cover object-center opacity-35"
+            className="absolute inset-0 h-full w-full object-cover object-center opacity-25 dark:opacity-35"
             loading="lazy"
           />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[oklch(0.16_0.015_265/0.92)] via-[oklch(0.18_0.015_265/0.85)] to-[oklch(0.18_0.015_265/0.75)]" />
-          <div className="absolute top-0 right-0 w-80 h-80 bg-accent/20 rounded-full blur-3xl" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-background/95 via-background/90 to-background/85 dark:from-[oklch(0.16_0.015_265/0.92)] dark:via-[oklch(0.18_0.015_265/0.85)] dark:to-[oklch(0.18_0.015_265/0.75)]" />
+          <div className="absolute top-0 right-0 w-80 h-80 bg-accent/15 dark:bg-accent/20 rounded-full blur-3xl" />
           
           <div className="relative z-10 max-w-3xl mx-auto space-y-8">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading tracking-tight text-foreground">
@@ -744,7 +749,7 @@ function Index() {
               <Button asChild size="lg" className="w-full sm:w-auto h-12 px-8 bg-accent hover:bg-accent/95 text-accent-foreground font-bold shadow-lg shadow-accent/20">
                 <Link to="/auth" search={{ mode: "signup" }}>{t.ctaStartTrial}</Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="w-full sm:w-auto h-12 px-8 border-white/35 text-foreground bg-transparent hover:bg-white/10 hover:text-foreground font-medium">
+              <Button asChild variant="outline" size="lg" className="w-full sm:w-auto h-12 px-8 border-border bg-background/80 hover:bg-muted dark:border-white/35 dark:bg-transparent dark:hover:bg-white/10 font-medium">
                 <Link to="/auth">{t.ctaSignIn}</Link>
               </Button>
             </div>
@@ -756,11 +761,11 @@ function Index() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-white/10 bg-muted/50 py-12">
+      <footer className="border-t border-border bg-muted/50 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-2">
-              <div className="grid h-8 w-8 place-items-center rounded bg-sidebar text-accent">
+              <div className="grid h-8 w-8 place-items-center rounded bg-primary text-primary-foreground">
                 <Construction className="h-4 w-4" />
               </div>
               <span className="font-bold font-heading text-lg text-foreground tracking-tight">HERMS</span>

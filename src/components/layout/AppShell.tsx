@@ -1,18 +1,19 @@
 import { Link, Outlet, useRouterState, useNavigate } from "@tanstack/react-router";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef, type ComponentType } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { isNativeApp } from "@/lib/native";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
   LayoutDashboard, Truck, ClipboardList, Wrench, Tags,
   CreditCard, FileText, User as UserIcon, LogOut, Construction, X,
-  MapPin, Crown, BarChart3, Users, PackageCheck, Info,
+  MapPin, Crown, BarChart3, Users, PackageCheck, Info, CalendarPlus,
 } from "lucide-react";
 import { useLocale } from "@/lib/locale-context";
 import { isShopAdmin } from "@/lib/auth-access";
 import { canAccessRoute } from "@/lib/employee-permissions";
 import { TrialBanner } from "@/components/TrialBanner";
 import { TechlogicaAbout } from "@/components/TechlogicaAbout";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import type { TranslationTree } from "@/lib/locale/translations/en";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,9 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarInset,
   SidebarMenu,
@@ -31,37 +35,110 @@ import {
 } from "@/components/ui/sidebar";
 
 type NavKey = keyof TranslationTree["nav"];
+type NavGroupKey =
+  | "navGroupOverview"
+  | "navGroupOperations"
+  | "navGroupFleet"
+  | "navGroupFinance"
+  | "navGroupOrganization"
+  | "navGroupAccount";
+
+type NavItemDef = {
+  to: string;
+  navKey: NavKey;
+  icon: ComponentType<{ className?: string }>;
+  adminOnly?: true;
+};
+
+type NavGroupDef = {
+  id: string;
+  labelKey: NavGroupKey;
+  items: NavItemDef[];
+};
 
 const ADMIN_ONLY_PATHS = new Set(["/admin/subscription"]);
 
-const ADMIN_NAV = [
-  { to: "/admin/dashboard", navKey: "adminDashboard" as NavKey, icon: LayoutDashboard },
-  { to: "/admin/branches", navKey: "adminBranches" as NavKey, icon: MapPin },
-  { to: "/admin/equipment", navKey: "adminEquipment" as NavKey, icon: Truck },
-  { to: "/admin/categories", navKey: "adminCategories" as NavKey, icon: Tags },
-  { to: "/admin/bookings", navKey: "adminBookings" as NavKey, icon: ClipboardList },
-  { to: "/admin/collect-equipment", navKey: "adminCollect" as NavKey, icon: PackageCheck },
-  { to: "/admin/maintenance", navKey: "adminMaintenance" as NavKey, icon: Wrench },
-  { to: "/admin/payments", navKey: "adminPayments" as NavKey, icon: CreditCard },
-  { to: "/admin/reports", navKey: "adminReports" as NavKey, icon: BarChart3 },
-  { to: "/admin/invoices", navKey: "adminInvoices" as NavKey, icon: FileText },
-  { to: "/admin/team", navKey: "adminTeam" as NavKey, icon: Users },
-  { to: "/admin/subscription", navKey: "adminSubscription" as NavKey, icon: Crown, adminOnly: true as const },
-  { to: "/about", navKey: "adminAbout" as NavKey, icon: Info },
-  { to: "/profile", navKey: "profile" as NavKey, icon: UserIcon },
-] as const;
+const NAV_GROUPS: NavGroupDef[] = [
+  {
+    id: "overview",
+    labelKey: "navGroupOverview",
+    items: [
+      { to: "/admin/dashboard", navKey: "adminDashboard", icon: LayoutDashboard },
+    ],
+  },
+  {
+    id: "operations",
+    labelKey: "navGroupOperations",
+    items: [
+      { to: "/admin/branches", navKey: "adminBranches", icon: MapPin },
+      { to: "/admin/bookings", navKey: "adminBookings", icon: ClipboardList },
+      { to: "/admin/book-now", navKey: "adminBookNow", icon: CalendarPlus },
+      { to: "/admin/collect-equipment", navKey: "adminCollect", icon: PackageCheck },
+    ],
+  },
+  {
+    id: "fleet",
+    labelKey: "navGroupFleet",
+    items: [
+      { to: "/admin/equipment", navKey: "adminEquipment", icon: Truck },
+      { to: "/admin/categories", navKey: "adminCategories", icon: Tags },
+      { to: "/admin/maintenance", navKey: "adminMaintenance", icon: Wrench },
+    ],
+  },
+  {
+    id: "finance",
+    labelKey: "navGroupFinance",
+    items: [
+      { to: "/admin/payments", navKey: "adminPayments", icon: CreditCard },
+      { to: "/admin/invoices", navKey: "adminInvoices", icon: FileText },
+      { to: "/admin/reports", navKey: "adminReports", icon: BarChart3 },
+    ],
+  },
+  {
+    id: "organization",
+    labelKey: "navGroupOrganization",
+    items: [
+      { to: "/admin/team", navKey: "adminTeam", icon: Users },
+      { to: "/admin/subscription", navKey: "adminSubscription", icon: Crown, adminOnly: true },
+    ],
+  },
+  {
+    id: "account",
+    labelKey: "navGroupAccount",
+    items: [
+      { to: "/profile", navKey: "profile", icon: UserIcon },
+      { to: "/about", navKey: "adminAbout", icon: Info },
+    ],
+  },
+];
 
-const NATIVE_BOTTOM_NAV = [
-  { to: "/admin/dashboard", navKey: "adminDashboard" as NavKey, icon: LayoutDashboard },
-  { to: "/admin/equipment", navKey: "adminEquipment" as NavKey, icon: Truck },
-  { to: "/admin/bookings", navKey: "adminBookings" as NavKey, icon: ClipboardList },
-  { to: "/profile", navKey: "profile" as NavKey, icon: UserIcon },
-] as const;
+const NATIVE_BOTTOM_NAV: NavItemDef[] = [
+  { to: "/admin/dashboard", navKey: "adminDashboard", icon: LayoutDashboard },
+  { to: "/admin/equipment", navKey: "adminEquipment", icon: Truck },
+  { to: "/admin/bookings", navKey: "adminBookings", icon: ClipboardList },
+  { to: "/profile", navKey: "profile", icon: UserIcon },
+];
 
-type NavItem = (typeof ADMIN_NAV)[number];
+function filterNavItem(
+  item: NavItemDef,
+  shopAdmin: boolean,
+  permissions: ReturnType<typeof useAuth>["permissions"],
+): boolean {
+  if (item.adminOnly && !shopAdmin) return false;
+  if (item.to === "/admin/dashboard" || item.to === "/profile" || item.to === "/about") return true;
+  return canAccessRoute(item.to, permissions, shopAdmin);
+}
 
-function AppSidebar({ items, pathname, onSignOut, profile, roleLabel, navLabels, signOutLabel }: {
-  items: readonly NavItem[];
+function AppSidebar({
+  groups,
+  pathname,
+  onSignOut,
+  profile,
+  roleLabel,
+  navLabels,
+  signOutLabel,
+}: {
+  groups: NavGroupDef[];
   pathname: string;
   onSignOut: () => void;
   profile: { full_name?: string; email?: string; company_name?: string | null } | null;
@@ -81,10 +158,10 @@ function AppSidebar({ items, pathname, onSignOut, profile, roleLabel, navLabels,
 
   return (
     <>
-      <SidebarHeader className="border-b border-sidebar-border px-4 py-4">
+      <SidebarHeader className="shrink-0 border-b border-sidebar-border px-4 py-4">
         <div className="flex items-center justify-between gap-2 pr-8">
           <div className="flex items-center gap-2 min-w-0">
-            <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary text-accent">
+            <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
               <Construction className="h-5 w-5" />
             </div>
             <div className="min-w-0">
@@ -109,31 +186,41 @@ function AppSidebar({ items, pathname, onSignOut, profile, roleLabel, navLabels,
           )}
         </div>
       </SidebarHeader>
-      <SidebarContent className="px-2 py-4">
-        <SidebarMenu>
-          {items.map((it) => {
-            const active = pathname === it.to || pathname.startsWith(it.to + "/");
-            return (
-              <SidebarMenuItem key={it.to}>
-                <SidebarMenuButton asChild isActive={active}>
-                  <Link to={it.to} onClick={() => isMobile && setOpenMobile(false)}>
-                    <it.icon className="h-4 w-4" />
-                    <span>{navLabels[it.navKey]}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            );
-          })}
-        </SidebarMenu>
+      <SidebarContent className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 py-3">
+        {groups.map((group) => (
+          <SidebarGroup key={group.id}>
+            <SidebarGroupLabel className="text-[10px] uppercase tracking-wider text-sidebar-foreground/50">
+              {navLabels[group.labelKey]}
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {group.items.map((it) => {
+                  const active = pathname === it.to || pathname.startsWith(it.to + "/");
+                  return (
+                    <SidebarMenuItem key={it.to}>
+                      <SidebarMenuButton asChild isActive={active}>
+                        <Link to={it.to} onClick={() => isMobile && setOpenMobile(false)}>
+                          <it.icon className="h-4 w-4" />
+                          <span>{navLabels[it.navKey]}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  );
+                })}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
       </SidebarContent>
-      <SidebarFooter className="border-t border-sidebar-border p-4">
+      <SidebarFooter className="shrink-0 border-t border-sidebar-border p-4">
         <div className="text-sm font-medium truncate">{profile?.full_name || profile?.email}</div>
         <div className="text-xs text-sidebar-foreground/60 truncate">{profile?.company_name || "—"}</div>
+        <ThemeToggle variant="sidebar" className="mt-3" />
         <Button
           onClick={onSignOut}
           variant="ghost"
           size="sm"
-          className="mt-3 w-full justify-start text-sidebar-foreground/80 hover:text-sidebar-primary-foreground hover:bg-sidebar-accent"
+          className="mt-2 w-full justify-start text-sidebar-foreground/80 hover:text-sidebar-primary-foreground hover:bg-sidebar-accent"
         >
           <LogOut className="h-4 w-4 mr-2" /> {signOutLabel}
         </Button>
@@ -150,12 +237,13 @@ function ShellHeader() {
     <header className="sticky top-0 z-40 shrink-0 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/90 pt-[env(safe-area-inset-top)]">
       <div className="flex h-14 items-center gap-2 px-4">
         <SidebarTrigger className="h-9 w-9" />
-        <div className="flex items-center gap-2 min-w-0">
-          <div className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-primary text-accent">
+        <div className="flex items-center gap-2 min-w-0 flex-1">
+          <div className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-primary text-primary-foreground">
             <Construction className="h-4 w-4" />
           </div>
           <span className="font-bold font-heading truncate">HERMS</span>
         </div>
+        <ThemeToggle variant="menu" />
       </div>
     </header>
   );
@@ -163,7 +251,6 @@ function ShellHeader() {
 
 function NativeBottomNav({ pathname, navLabels }: { pathname: string; navLabels: TranslationTree["nav"] }) {
   const isMobile = useIsMobile();
-  // Native Capacitor WebViews often report tablet-wide viewports — still show tabs.
   if (!isNativeApp && !isMobile) return null;
 
   return (
@@ -203,11 +290,14 @@ export function AppShell() {
   const showBottomNav = nativeApp || isMobile;
   const shopAdmin = isShopAdmin(role);
 
-  const navItems = ADMIN_NAV.filter((item) => {
-    if ("adminOnly" in item && item.adminOnly && !shopAdmin) return false;
-    if (item.to === "/admin/dashboard" || item.to === "/profile" || item.to === "/about") return true;
-    return canAccessRoute(item.to, permissions, shopAdmin);
-  });
+  const navGroups = useMemo(
+    () =>
+      NAV_GROUPS.map((group) => ({
+        ...group,
+        items: group.items.filter((item) => filterNavItem(item, shopAdmin, permissions)),
+      })).filter((group) => group.items.length > 0),
+    [shopAdmin, permissions],
+  );
 
   useEffect(() => {
     if (shopAdmin) return;
@@ -232,7 +322,7 @@ export function AppShell() {
     <SidebarProvider>
       <Sidebar>
         <AppSidebar
-          items={navItems}
+          groups={navGroups}
           pathname={pathname}
           onSignOut={handleSignOut}
           profile={profile}

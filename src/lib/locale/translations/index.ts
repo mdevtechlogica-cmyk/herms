@@ -1,4 +1,5 @@
 import { LANGUAGE_CODES, type LanguageCode } from "../countries";
+import { mergeTranslations } from "./merge";
 import { ar } from "./ar";
 import { en, type TranslationTree } from "./en";
 import { hi } from "./hi";
@@ -63,7 +64,9 @@ const PARTIAL: Partial<Record<LanguageCode, TranslationTree>> = {
 
 function resolveLocale(code: LanguageCode): TranslationTree {
   if (code in HAND_WRITTEN) return HAND_WRITTEN[code as keyof typeof HAND_WRITTEN];
-  return generatedLocale(code) ?? PARTIAL[code] ?? en;
+  const generated = generatedLocale(code);
+  if (generated) return mergeTranslations(generated);
+  return PARTIAL[code] ?? en;
 }
 
 export const TRANSLATIONS = Object.fromEntries(
